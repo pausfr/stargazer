@@ -1,0 +1,30 @@
+## Review
+
+**Verdict:** READY
+**Reviewer:** aidlc-architecture-reviewer-agent
+**Date:** 2026-10-25T16:15:06Z
+**Iteration:** 1
+**Verdict Dictated:** no
+
+Advisory 단일 패스입니다. 아래 지적은 게이트에서 사람이 판단할 참고 사항이며, 수정-재검토 루프를 걸지 않습니다. 결론부터: 컴포넌트 카탈로그는 구조적으로 건전합니다. 이름 7개가 모두 고유한 PascalCase이고, `depends_on`/`dependents`가 전부 대칭이며, 의존 그래프에 순환이 없습니다(싱크: AstronomyEngine, HolidayCalendar, DataCache). 엔티티 3개(AstronomyResult, CloudForecast, CalendarDate)는 각각 정확히 한 컴포넌트가 식별자 `dateKstId`와 함께 소유하고, 외부 의존(천문 라이브러리, 무료 날씨 API, 공휴일 데이터, 정적 호스팅)은 컴포넌트가 아니라 `external_dependencies`로 올바르게 분리되어 있습니다. ADR-001~004는 Context/Decision/Consequences/Alternatives Rejected 구조를 모두 갖췄고, traceability.json의 US1.1~US4.2 9개 스토리가 전부 선언된 컴포넌트를 target으로 status `OK`로 매핑됩니다. 깨진 교차 참조는 발견되지 않았습니다.
+
+### Findings
+
+| ID | Severity | Location | Finding | Required action | Status |
+|---|---|---|---|---|---|
+| R-01 | Minor | aidlc/spaces/default/intents/261025-stargazing-planner/inception/domain-design/components.md > component DataCache (summary/behaviour) | DataCache의 summary는 "날씨·계산 결과를 짧게 캐시", behaviour는 "날씨(및 필요 시 계산) 결과를 캐시"라고 하여 천문 계산 결과도 캐시 대상으로 서술합니다. 그러나 그래프에는 WeatherClient만 DataCache의 dependent로 연결되어 있고 AstronomyEngine은 DataCache에 의존하지 않습니다. 계산 결과까지 캐시한다면 그 경로를 호출하는 컴포넌트와 DataCache 사이에 모델링되지 않은 의존이 생겨, 서술과 의존 그래프가 어긋납니다. | DataCache가 실제로 날씨 캐시만 담당하면 summary/behaviour에서 "계산 결과" 언급을 빼고, 계산 결과 캐시도 의도한 것이면 해당 호출부→DataCache 의존(및 대칭 dependents)을 카탈로그에 추가하도록 사람이 게이트에서 정리할지 판단하세요. | New |
+| R-02 | Minor | aidlc/spaces/default/intents/261025-stargazing-planner/inception/domain-design/components.md > Entity Ownership | 세 엔티티(AstronomyResult, CloudForecast, CalendarDate)가 모두 동일한 식별자 `dateKstId`를 사용해 교차 컴포넌트 결합이 식별자 공유로만 암묵 표현됩니다(명시적 `references` 없음). 현 단계(소유+형태) 규칙 위반은 아니나, 같은 키가 서로 다른 엔티티의 PK로 쓰일 때 Functional Design에서 관계·카디널리티를 정의할 때 혼동 소지가 있습니다. | 참고 사항입니다. Functional Design(entities.md)에서 `dateKstId`를 통한 엔티티 간 관계를 명시적으로 고정할 것을 권고합니다. 이번 단계에서 추가 조치는 필요하지 않습니다. | New |
+
+### Validation Tool Results
+
+| Tool | Result | Interpretation |
+|---|---|---|
+| name-uniqueness | PASS | 컴포넌트 이름 7개가 모두 고유한 PascalCase |
+| dependency-symmetry | PASS | 모든 depends_on/dependents 쌍이 대칭 |
+| acyclicity | PASS | 그래프 비순환(싱크: AstronomyEngine, HolidayCalendar, DataCache) |
+| entity-ownership | PASS | 엔티티 3개 각각 단일 소유·식별자 보유, 외부 의존은 컴포넌트 아님 |
+| traceability-coverage | PASS | US1.1~US4.2 9개 전부 선언된 컴포넌트에 status OK로 매핑 |
+
+### Summary
+
+컴포넌트 카탈로그는 구조적으로 건전하며(고유 이름·대칭 의존·비순환·단일 엔티티 소유·완전한 US 추적성) 개발자가 이 설계만으로 구현을 시작할 수 있는 수준입니다. 유일하게 눈에 띄는 참고 사항은 DataCache의 서술(날씨+계산 캐시)과 의존 그래프(WeatherClient만 연결) 사이의 경미한 불일치로, 게이트에서 사람이 한 줄 정리할지 판단하면 됩니다.

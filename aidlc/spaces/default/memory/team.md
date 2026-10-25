@@ -7,21 +7,37 @@
 
 ## Way of Working
 
-<!-- Affirmed during practices-discovery. Example: -->
-<!-- We use GitHub Flow with feature branches. Branches live 3-5 days max. -->
-<!-- Hotfixes branch from main and merge back via expedited review. -->
+- 단일 개발자가 `main` 트렁크 하나로 작업하는 **트렁크 기반 개발**을 씁니다.
+  베이스와 머지 대상 모두 `main`이며, 장수 브랜치는 두지 않습니다.
+- 작업은 `main`에 바로 커밋해 합칩니다(트렁크 기반, 단순). 1인 프로젝트이므로
+  기능별 브랜치나 PR 리뷰 같은 무거운 협업 절차는 두지 않고, 변경 근거는
+  커밋 메시지로 남깁니다.
 
 ## Walking Skeleton
 
-<!-- Affirmed during practices-discovery. Example: -->
-<!-- We don't run a walking skeleton — our deployment pipeline is mature -->
-<!-- and the slice cost outweighs the value at our maturity stage. -->
+- 워킹 스켈레톤(얇은 엔드투엔드 슬라이스를 먼저 만들어 조각들의 연결을
+  증명하는 방식)의 적용 여부에 대해 개발자는 특정 입장을 고정하지 않고,
+  활성 스코프(feature)의 기본값에 따르기로 했습니다.
+- 따라서 이 스탠스는 활성 스코프의 기본 설정이 결정하며, Construction
+  단계에서 그 기본값에 맞춰 적용 여부가 정해집니다. 여기서는 on/off를
+  하드하게 단정하지 않습니다.
 
 ## Testing Posture
 
-<!-- Affirmed during practices-discovery. Example: -->
-<!-- We use BDD. Specifications drive scenarios; scenarios drive code. -->
-<!-- Each Unit ships with feature files in /features/. -->
+- **Methodology**: test-after
+- **Ordering**: 각 테스트 가능한 레이어(천문 계산 함수, 데이터 페치·캐시,
+  밤 추천 점수 산출)를 먼저 구현한 뒤 그 레이어의 단위 테스트를 작성하고
+  실행한다.
+- **Methodology evidence**: 솔로 개발자가 무료 티어 정적 웹 앱을 만드는
+  맥락에서 TDD/BDD/ATDD의 사전 시나리오 작성 오버헤드보다, 정답이 분명한
+  순수 계산 로직(달 조도·박명·월출몰·추천 점수)에 대한 구현 후 단위 테스트가
+  비용 대비 가치가 높다고 인터뷰(Q3)에서 판단했습니다. feature 스코프이며
+  org.md 기본과 동일한 test-after를 채택합니다.
+- 전체적으로 가벼운 테스트 분량을 지향하되, 핵심 천문 계산 로직(달 조도,
+  박명 구간/완전한 밤, 월출·월몰, 밤 추천 점수)에 테스트 노력을 집중합니다.
+  UI와 외부 API 연동은 수동 스모크로 보완합니다.
+- **커버리지**: 약 80% 라인 커버리지 플로어는 **핵심 계산 모듈에만** 적용하고
+  (Q4), UI 등 그 외 코드는 더 느슨하게 둡니다.
 
 ## Guard Policy
 
@@ -29,13 +45,21 @@
 
 ## Deployment
 
-<!-- Affirmed during practices-discovery. -->
+- 무료 정적 호스팅(GitHub Pages / Vercel / Netlify 무료 티어)에 배포합니다.
+- `main` 머지 시 자동 배포하는 **머지 시 배포**를 기본으로 합니다(Q5). 1인
+  개인 앱이고 별도 운영 환경이 없으므로 별도의 수동 프로덕션 승인 게이트는
+  두지 않습니다.
+- 롤백은 정적 호스팅 제공자의 이전 배포로 되돌리거나 `main`의 직전 커밋으로
+  재배포해 수행합니다.
 
 ## Code Style
 
-<!-- Team-specific conventions beyond the linter. Example: -->
-<!-- - Prefer named exports over default exports -->
-<!-- - All async functions return Result<T, E>, never throw -->
+- 리포지토리 루트의 표준 린터/포매터 설정에 위임합니다(JS/TS 기준
+  Prettier + ESLint)(Q6). 설정 파일이 프로젝트 기준의 단일 소스입니다.
+- 네이밍은 언어 관용을 따릅니다(JS/TS는 camelCase). 프로젝트 전역 리네임
+  규칙은 두지 않습니다.
+- 다크모드 우선 모바일 웹 UI이므로, 색만으로 정보를 전달하지 않도록
+  아이콘/라벨을 병행하는 접근성 관례를 코드 스타일 차원에서 지향합니다.
 
 ## Forbidden
 
