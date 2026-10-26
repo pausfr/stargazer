@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "id": "37e598f7f9f25cdd562d07e5c8a7a81032098ddfdeb1cc082fe3e161671f7526",
+  "stage": "domain-design",
+  "unit": null,
+  "workflow": null,
+  "attempt": "STAGE_STARTED:2026-10-25T16:04:49Z:/Users/glen/Documents/stargazer/aidlc/spaces/default/intents/261025-stargazing-planner/audit/84121-local-47b34411d28e.md:441",
+  "questions_file": "aidlc/spaces/default/intents/261025-stargazing-planner/inception/domain-design/domain-design-questions.md",
+  "questions_sha256": "cc314e44cb173c1983f7eced1a6d6a66d355cd5eaa214b1ae2b90ffa09ab2a62",
+  "choice": "Looks correct",
+  "recorded_at": "2026-10-25T16:13:30Z"
+}

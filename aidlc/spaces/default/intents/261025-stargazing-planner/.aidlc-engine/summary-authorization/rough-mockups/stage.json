@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "id": "ac74303a22848ee830e35ed84bda014dddc630d86cd851b261f13aac7f777b67",
+  "stage": "rough-mockups",
+  "unit": null,
+  "workflow": null,
+  "attempt": "STAGE_STARTED:2026-10-25T13:39:33Z:/Users/glen/Documents/stargazer/aidlc/spaces/default/intents/261025-stargazing-planner/audit/84121-local-47b34411d28e.md:167",
+  "questions_file": "aidlc/spaces/default/intents/261025-stargazing-planner/ideation/rough-mockups/rough-mockups-questions.md",
+  "questions_sha256": "00cf3b06976fbfb1bf23a3bc58ecf9cbe31197de8c1264de2b684b700dba65ee",
+  "choice": "Looks correct",
+  "recorded_at": "2026-10-25T14:07:25Z"
+}

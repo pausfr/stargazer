@@ -1,0 +1,13 @@
+{
+  "stage": "nfr-design",
+  "unit": "u2-weather-data",
+  "upstream_ids": ["NFR4.1", "NFR5.1", "NFR6.1", "NFR6.2", "NFR6.3"],
+  "coverage": [
+    { "id": "NFR4.1", "status": "OK", "target": "복원력 설계: 타임아웃+unknown 격리로 앱 비차단(WeatherClient)" },
+    { "id": "NFR5.1", "status": "OK", "target": "복원력 설계: TTL 캐시(DataCache) + 14일 사전 컷오프(getCloudForecast)" },
+    { "id": "NFR6.1", "status": "OK", "target": "SD3: 키 불필요 API·단일 egress, 비밀값 없음" },
+    { "id": "NFR6.2", "status": "OK", "target": "SD1: 진입점 입력 검증 게이트(실패=unknown)" },
+    { "id": "NFR6.3", "status": "OK", "target": "SD2: 외부 응답 비신뢰 정규화(WeatherClient)" }
+  ],
+  "reverse": []
+}

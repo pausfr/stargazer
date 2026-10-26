@@ -1,0 +1,14 @@
+{
+  "stage": "nfr-requirements",
+  "unit": "u1-astronomy",
+  "upstream_ids": ["NFR1", "NFR2", "NFR3", "NFR4", "NFR5", "NFR6", "NFR7"],
+  "coverage": [
+    { "id": "NFR1", "status": "N/A", "target": "UI 접근성, delivered by u4-web-ui" },
+    { "id": "NFR2", "status": "N/A", "target": "모바일/데스크톱 레이아웃, delivered by u4-web-ui" },
+    { "id": "NFR3", "status": "N/A", "target": "목록 로딩 체감, delivered by u4-web-ui/u2" },
+    { "id": "NFR4", "status": "N/A", "target": "온라인 전제·캐시, delivered by u2-weather-data" },
+    { "id": "NFR5", "status": "OK", "target": "tech-stack-decisions: 오픈소스 천문 라이브러리 무료 라이선스로만 적용" },
+    { "id": "NFR6", "status": "OK", "target": "NFR6.1, NFR6.2, NFR6.3" },
+    { "id": "NFR7", "status": "N/A", "target": "정적 호스팅 배포 형태, u4-web-ui/packaging 소관" }
+  ]
+}

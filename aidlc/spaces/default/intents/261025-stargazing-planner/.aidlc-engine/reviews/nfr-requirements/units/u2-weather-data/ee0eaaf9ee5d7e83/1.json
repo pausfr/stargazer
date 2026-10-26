@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "stage": "nfr-requirements",
+  "unit": "u2-weather-data",
+  "workflow": null,
+  "attempt": "ee0eaaf9ee5d7e83",
+  "iteration": 1,
+  "reviewer": "aidlc-architecture-reviewer-agent",
+  "verdict": "READY",
+  "request_id": "review:90a370d7bf1ae2072487a3f92990e5ff",
+  "request_challenge": null,
+  "artifact_fingerprint": "sha256:f66a7131bd0dd9ebf44401623b69b8c527f4bf87d6c1d99d49500adc5b9c7d44",
+  "source_fingerprint": null,
+  "unit_source_fingerprint": null,
+  "findings": [
+    {
+      "id": "R-01",
+      "severity": "Minor",
+      "location": "construction/u2-weather-data/nfr-requirements/security-requirements.md > NFR6.2",
+      "finding": "경계 입력 검증(dateKstId 형식·lat/lon 범위)의 판정이 \"잘못된 입력에 대한 처리를 단위 테스트로 검증\"으로만 적혀, 검증 실패 시 기대 동작(예: 거부·정규화)이 C2 `throws: never` 계약과 어떻게 맞물리는지 명시가 없다. 테스트 가능성은 있으나 기대 결과가 느슨하다.",
+      "required_action": "검증 실패 시의 기대 동작(예외 없이 어떤 상태/반환으로 처리하는지)을 한 줄로 못박거나 code-generation으로 명시 유보한다.",
+      "status": "New"
+    }
+  ],
+  "derived_findings": [
+    {
+      "id": "R-01",
+      "severity": "Minor",
+      "location": "construction/u2-weather-data/nfr-requirements/security-requirements.md > NFR6.2",
+      "finding": "경계 입력 검증(dateKstId 형식·lat/lon 범위)의 판정이 \"잘못된 입력에 대한 처리를 단위 테스트로 검증\"으로만 적혀, 검증 실패 시 기대 동작(예: 거부·정규화)이 C2 `throws: never` 계약과 어떻게 맞물리는지 명시가 없다. 테스트 가능성은 있으나 기대 결과가 느슨하다.",
+      "required_action": "검증 실패 시의 기대 동작(예외 없이 어떤 상태/반환으로 처리하는지)을 한 줄로 못박거나 code-generation으로 명시 유보한다.",
+      "status": "New",
+      "introduced_in_review": true
+    }
+  ],
+  "body": "## Review\n\n**Verdict:** READY\n**Reviewer:** aidlc-architecture-reviewer-agent\n**Date:** 2026-10-26T14:22:16Z\n**Iteration:** 1\n**Verdict Dictated:** no\n\n### Findings\n\n반박을 목표로 각 주장을 상위 아티팩트에 대조해 검증했다. 상태를 바꿀 Critical·Major 결함은 없다.\n\n- **NFR 서브 ID 상속·측정성**: NFR6.1/6.2/6.3, NFR5.1, NFR4.1이 모두 상위 inception ID(NFR6·NFR5·NFR4)에 서브넘버를 붙여 상속하며, 각 행에 테스트/판정 기준이 있다(\"시크릿 0건\", \"캐시 히트·먼 날짜 호출 없음\", \"호출 실패 시 unknown·앱 비차단\"). \"fast enough\" 류의 모호한 목표는 없다.\n- **키 불필요/공개 API 결정**: NFR6.1·tech-stack의 키 불필요 결정이 requirements.md NFR6(키를 숨길 서버 없음 → 키 불필요 공개 API 우선)과 contract-summary C4 비기능 메모(인증: 키 불필요 공개 API 우선)와 정합한다. 키 필요 시 프록시 제기를 code-generation으로 미루는 처리도 NFR6/Q1과 일치.\n- **무료 한도 보호**: NFR5.1의 캐시 + 14일 컷오프가 NFR5·FR5.3·BR1.1(14일 초과→호출 없이 outOfHorizon)·BR3.1(TTL 캐시)과 일치한다. 정량 상한을 code-generation으로 미루는 것은 A2 및 BR1.3 불변식과 정합하며, 캐시 히트/먼 날짜 비호출이라는 테스트 가능한 판정 기준이 남아 있어 모호 목표가 아니다.\n- **외부 응답 비신뢰(NFR6.3)**: BR2.1(실패/결측→unknown)·BR2.2(어댑터 3-상태 정규화, 원형 응답 비노출)과 정합. C2 `throws: never`·status 필드 모델과도 모순 없음.\n- **온라인 전제 가용성(NFR4.1)**: NFR4(온라인 전제, 오프라인 전용 미지원)·BR2.1과 정합하며, 세션 메모리 캐시만 둔다는 결정도 tech-stack과 일치.\n- **tech-stack**: `fetch`+AbortController 타임아웃, Open-Meteo 1순위, Vitest 모두 근거가 있고 구체 API 범위·한도·CORS를 code-generation(A2)으로 적절히 유보. BR1.3 불변식(FORECAST_HORIZON_DAYS ≤ 실제 범위) 연결도 명시됨. 구현 과잉은 없다.\n- **traceability.json**: requirements.md의 NFR1~NFR7을 `upstream_ids`·`coverage`에 빠짐없이 열거했다. NFR4/5/6은 OK(각각 NFR4.1 / NFR5.1 / NFR6.1,6.2,6.3 타깃), NFR1/2/3/7은 N/A에 사유(UI/플랫폼/UI 성능/정적 호스팅 — u4-web-ui 소관)를 target으로 달았다. library 데이터 단위에 대한 N/A 판정이 타당하며, verification.md 스키마(OK/N/A는 비어 있지 않은 target 필요)를 충족한다. library kind에서 performance/scalability/reliability/observability 산출물이 없는 것도 올바르다.\n\n**Prior findings**\n\n| ID | Now | Severity | Note |\n|---|---|---|---|\n\n**New findings**\n\n| Severity | Location | Finding | Required action |\n|---|---|---|---|\n| Minor | construction/u2-weather-data/nfr-requirements/security-requirements.md > NFR6.2 | 경계 입력 검증(dateKstId 형식·lat/lon 범위)의 판정이 \"잘못된 입력에 대한 처리를 단위 테스트로 검증\"으로만 적혀, 검증 실패 시 기대 동작(예: 거부·정규화)이 C2 `throws: never` 계약과 어떻게 맞물리는지 명시가 없다. 테스트 가능성은 있으나 기대 결과가 느슨하다. | 검증 실패 시의 기대 동작(예외 없이 어떤 상태/반환으로 처리하는지)을 한 줄로 못박거나 code-generation으로 명시 유보한다. |\n\n### Validation Tool Results\n\n| Tool | Result | Interpretation |\n|---|---|---|\n| traceability (수동 대조) | PASS | NFR1~NFR7이 모두 `upstream_ids`·`coverage`에 존재, OK/N/A target 비어 있지 않음, 서브 ID(NFR4.1/5.1/6.1-3)가 상위에 연결됨. |\n| contract 대조 (C2/C4, BR2.1/BR2.2/BR1.1/BR3.1) | PASS | 어댑터 3-상태·키 불필요·캐시/컷오프 결정이 상위 계약·규칙과 모순 없음. |\n| produces_kinds (library) | PASS | security/tech-stack/traceability만 산출, 나머지 NFR 산출물 부재가 규칙상 정당. |\n\n### Summary\n\n상위 요구·규칙·계약과의 대조에서 결함을 찾지 못했다. 세 산출물 모두 ID 상속·측정성·추적성이 건전하고, 미확정 사항(구체 API·무료 한도)은 code-generation으로 적절히 유보됐다. 유일한 지적은 NFR6.2 검증 실패 동작의 느슨함(Minor)으로, 게이트를 막지 않는다.\n",
+  "recorded_at": "2026-10-26T14:24:18Z"
+}

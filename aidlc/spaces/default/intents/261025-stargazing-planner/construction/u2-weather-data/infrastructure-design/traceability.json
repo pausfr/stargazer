@@ -1,0 +1,13 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u2-weather-data",
+  "upstream_ids": ["NFR4.1", "NFR5.1", "NFR6.1", "NFR6.2", "NFR6.3"],
+  "coverage": [
+    { "id": "NFR6.1", "status": "OK", "target": "CI 빌드 게이트: 하드코딩 시크릿 0건 확인(키 불필요 API)" },
+    { "id": "NFR5.1", "status": "N/A", "target": "무료 한도 보호는 런타임 캐시/컷오프(nfr-design), 인프라 대상 아님. CI는 외부 API 미호출" },
+    { "id": "NFR4.1", "status": "N/A", "target": "온라인 전제 가용성은 런타임 동작(unknown 격리), 인프라 대상 아님" },
+    { "id": "NFR6.2", "status": "N/A", "target": "입력 검증은 코드 내 로직, 인프라 대상 아님" },
+    { "id": "NFR6.3", "status": "N/A", "target": "외부 응답 정규화는 코드 내 로직, 인프라 대상 아님" }
+  ],
+  "reverse": []
+}

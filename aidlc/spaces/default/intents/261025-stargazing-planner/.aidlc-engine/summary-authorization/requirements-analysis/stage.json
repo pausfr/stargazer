@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "id": "5010dbfed5d28538a3a1324410bce7fe316b1ec00f4a2fea6ed836b8c56885a0",
+  "stage": "requirements-analysis",
+  "unit": null,
+  "workflow": null,
+  "attempt": "STAGE_STARTED:2026-10-25T15:10:46Z:/Users/glen/Documents/stargazer/aidlc/spaces/default/intents/261025-stargazing-planner/audit/84121-local-47b34411d28e.md:304",
+  "questions_file": "aidlc/spaces/default/intents/261025-stargazing-planner/inception/requirements-analysis/requirements-analysis-questions.md",
+  "questions_sha256": "4bf7a84bb5f19ec53376fc10eeceda7bfabfde083774e11227eee2553c1242b9",
+  "choice": "Looks correct",
+  "recorded_at": "2026-10-25T15:19:52Z"
+}

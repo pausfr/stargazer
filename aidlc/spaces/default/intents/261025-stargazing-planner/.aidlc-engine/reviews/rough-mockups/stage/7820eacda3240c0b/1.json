@@ -1,0 +1,131 @@
+{
+  "version": 1,
+  "stage": "rough-mockups",
+  "unit": null,
+  "workflow": null,
+  "attempt": "7820eacda3240c0b",
+  "iteration": 1,
+  "reviewer": "aidlc-product-lead-agent",
+  "verdict": "READY",
+  "request_id": "review:45adcb3ec75960c01f382b9cdc300a67",
+  "request_challenge": null,
+  "artifact_fingerprint": "sha256:a8e3824038e488482db09977c086fe55c4e300a2c26cab864c381cc18a2f2336",
+  "source_fingerprint": null,
+  "unit_source_fingerprint": null,
+  "findings": [
+    {
+      "id": "R-01",
+      "severity": "Major",
+      "location": "wireframes.md > 화면 2: 상세 (핵심 숫자 요약 \"완전한 밤: 19:48 ~ 04:52\"와 박명 띠 \"[시민][항해][천문|밤|천문]\")",
+      "finding": "\"완전한 밤\" 정의가 화면 안에서 어긋난다. 요약 숫자는 19:48~04:52를 \"완전한 밤 = 천문박명 구간\"으로 제시하지만, 아래 박명 띠는 \"밤\"을 두 \"천문\" 구간 사이의 좁은 가운데 구간으로 그린다. 이 앱의 핵심 가치가 \"천문박명이 유지되는 완전한 밤이 몇 시부터 몇 시까지인지\"(intent-statement.md)인데, 두 표현 중 어느 것이 완전한 밤인지 개발자/QA가 판단할 수 없다.",
+      "required_action": "저녁 천문박명 종료~새벽 천문박명 시작 사이를 \"완전한 밤\"으로 하나로 정의하고, 요약 숫자의 시각과 박명 띠의 \"밤\" 구간이 같은 구간을 가리키도록 와이어프레임에서 일치시킨다(또는 어느 구간이 완전한 밤인지 한 줄로 못박는다).",
+      "status": "Resolved"
+    },
+    {
+      "id": "R-02",
+      "severity": "Minor",
+      "location": "wireframes.md > 화면 2: 상세 (헤더 \"< 뒤로 10/3 개천절 연휴\")",
+      "finding": "메인에서 \"추천\"으로 강조한 날을 탭해 상세로 들어오면 \"추천\"이라는 맥락이 사라진다. 사용자가 좋은 밤을 고르는 흐름에서 \"이 날이 추천 날이었다\"는 신호가 상세에서 끊긴다.",
+      "required_action": "상세 헤더나 요약 영역에 추천 여부 배지(아이콘+라벨)를 선택적으로 노출할지 Refined Mockups에서 정하도록 Open Questions에 적어 둔다.",
+      "status": "Resolved"
+    },
+    {
+      "id": "R-03",
+      "severity": "Minor",
+      "location": "wireframes.md > 화면 1: 메인 (접근성 메모 \"대비 AA 지향(A 수준 기본)\")",
+      "finding": "접근성 기준 답(Q6=A, \"기본만 … 가벼운 개인 앱 수준\")과 메모의 \"AA 지향\" 표현이 미묘하게 어긋나 목표 대비 수준이 모호하다.",
+      "required_action": "선택한 \"기본 수준(색 비의존 + 읽히는 대비)\"과 일치하도록 문구를 정리하거나, AA를 지향 목표로 둘지 한 줄로 명확히 한다.",
+      "status": "Resolved"
+    },
+    {
+      "id": "R-04",
+      "severity": "Minor",
+      "location": "aidlc/spaces/default/intents/261025-stargazing-planner/ideation/rough-mockups/wireframes.md > 화면 2 상세 그래프",
+      "finding": "요약 숫자의 완전한 밤 구간(20:30~04:10)과 x축 눈금(18·21·00·03·06)·박명 띠 위치가 그림상 시각적으로 연결되지 않아, 숫자와 띠가 같은 구간인지 한눈에 대조하기 어렵다(저충실도 범위 내 가독성 사항).",
+      "required_action": "Refined Mockups에서 완전한 밤 구간의 시작·끝 시각을 축/띠 위에 표시(예: 구간 경계에 시각 라벨)해 요약 숫자와 띠가 같은 구간임을 시각적으로 대조 가능하게 한다.",
+      "status": "Unresolved"
+    },
+    {
+      "id": "R-05",
+      "severity": "Major",
+      "location": "aidlc/spaces/default/intents/261025-stargazing-planner/ideation/rough-mockups/wireframes.md > 화면 1: 메인 — 연휴/주말 카드 목록",
+      "finding": "추천 강조가 달 위상(어두운 밤)만으로 결정되므로, 달은 어둡지만 구름이 많은 날도 \"추천\"으로 노란 테두리·별 아이콘·라벨이 붙는다. 카드에 \"추천\"과 \"흐림\"이 동시에 보이면, 좋은 관측 밤을 고른다는 핵심 가치에서 사용자에게 모순된 신호가 된다.",
+      "required_action": "가까운 날에 구름량이 나쁠 때 추천 강조를 어떻게 다룰지(강조 유지·완화·주의 라벨 병기 등)를 화면에서 명시하거나, 열린 항목으로 두더라도 이 상호작용을 Assumptions에 적어 설계 단계로 넘긴다.",
+      "status": "New"
+    },
+    {
+      "id": "R-06",
+      "severity": "Minor",
+      "location": "aidlc/spaces/default/intents/261025-stargazing-planner/ideation/rough-mockups/user-flow.md > 핵심 흐름 (해피 패스) 5단계",
+      "finding": "핵심 가치가 \"여러 밤을 비교\"인데 MVP의 유일한 비교 수단이 뒤로가기 후 다른 카드 재진입이다. 두 날의 완전한 밤 구간·조도·구름을 나란히 볼 방법이 없어, 사용자는 이전 상세 화면의 수치를 기억에 의존해 비교해야 한다.",
+      "required_action": "러프 단계에서 해결할 필요는 없으나, 메인 카드에 비교에 충분한 핵심 수치(완전한 밤 길이 등)를 요약으로 노출할지를 Refined Mockups에서 검토하도록 열린 항목으로 남긴다.",
+      "status": "New"
+    }
+  ],
+  "derived_findings": [
+    {
+      "id": "R-01",
+      "severity": "Major",
+      "location": "wireframes.md > 화면 2: 상세 (핵심 숫자 요약 \"완전한 밤: 19:48 ~ 04:52\"와 박명 띠 \"[시민][항해][천문|밤|천문]\")",
+      "finding": "\"완전한 밤\" 정의가 화면 안에서 어긋난다. 요약 숫자는 19:48~04:52를 \"완전한 밤 = 천문박명 구간\"으로 제시하지만, 아래 박명 띠는 \"밤\"을 두 \"천문\" 구간 사이의 좁은 가운데 구간으로 그린다. 이 앱의 핵심 가치가 \"천문박명이 유지되는 완전한 밤이 몇 시부터 몇 시까지인지\"(intent-statement.md)인데, 두 표현 중 어느 것이 완전한 밤인지 개발자/QA가 판단할 수 없다.",
+      "required_action": "저녁 천문박명 종료~새벽 천문박명 시작 사이를 \"완전한 밤\"으로 하나로 정의하고, 요약 숫자의 시각과 박명 띠의 \"밤\" 구간이 같은 구간을 가리키도록 와이어프레임에서 일치시킨다(또는 어느 구간이 완전한 밤인지 한 줄로 못박는다).",
+      "status": "Resolved",
+      "resolved_by_reviewer": true,
+      "resolved_in_review": false,
+      "introduced_in_review": false
+    },
+    {
+      "id": "R-02",
+      "severity": "Minor",
+      "location": "wireframes.md > 화면 2: 상세 (헤더 \"< 뒤로 10/3 개천절 연휴\")",
+      "finding": "메인에서 \"추천\"으로 강조한 날을 탭해 상세로 들어오면 \"추천\"이라는 맥락이 사라진다. 사용자가 좋은 밤을 고르는 흐름에서 \"이 날이 추천 날이었다\"는 신호가 상세에서 끊긴다.",
+      "required_action": "상세 헤더나 요약 영역에 추천 여부 배지(아이콘+라벨)를 선택적으로 노출할지 Refined Mockups에서 정하도록 Open Questions에 적어 둔다.",
+      "status": "Resolved",
+      "resolved_by_reviewer": true,
+      "resolved_in_review": false,
+      "introduced_in_review": false
+    },
+    {
+      "id": "R-03",
+      "severity": "Minor",
+      "location": "wireframes.md > 화면 1: 메인 (접근성 메모 \"대비 AA 지향(A 수준 기본)\")",
+      "finding": "접근성 기준 답(Q6=A, \"기본만 … 가벼운 개인 앱 수준\")과 메모의 \"AA 지향\" 표현이 미묘하게 어긋나 목표 대비 수준이 모호하다.",
+      "required_action": "선택한 \"기본 수준(색 비의존 + 읽히는 대비)\"과 일치하도록 문구를 정리하거나, AA를 지향 목표로 둘지 한 줄로 명확히 한다.",
+      "status": "Resolved",
+      "resolved_by_reviewer": true,
+      "resolved_in_review": false,
+      "introduced_in_review": false
+    },
+    {
+      "id": "R-04",
+      "severity": "Minor",
+      "location": "aidlc/spaces/default/intents/261025-stargazing-planner/ideation/rough-mockups/wireframes.md > 화면 2 상세 그래프",
+      "finding": "요약 숫자의 완전한 밤 구간(20:30~04:10)과 x축 눈금(18·21·00·03·06)·박명 띠 위치가 그림상 시각적으로 연결되지 않아, 숫자와 띠가 같은 구간인지 한눈에 대조하기 어렵다(저충실도 범위 내 가독성 사항).",
+      "required_action": "Refined Mockups에서 완전한 밤 구간의 시작·끝 시각을 축/띠 위에 표시(예: 구간 경계에 시각 라벨)해 요약 숫자와 띠가 같은 구간임을 시각적으로 대조 가능하게 한다.",
+      "status": "New",
+      "not_rechecked": true,
+      "resolved_in_review": false,
+      "introduced_in_review": false
+    },
+    {
+      "id": "R-05",
+      "severity": "Major",
+      "location": "aidlc/spaces/default/intents/261025-stargazing-planner/ideation/rough-mockups/wireframes.md > 화면 1: 메인 — 연휴/주말 카드 목록",
+      "finding": "추천 강조가 달 위상(어두운 밤)만으로 결정되므로, 달은 어둡지만 구름이 많은 날도 \"추천\"으로 노란 테두리·별 아이콘·라벨이 붙는다. 카드에 \"추천\"과 \"흐림\"이 동시에 보이면, 좋은 관측 밤을 고른다는 핵심 가치에서 사용자에게 모순된 신호가 된다.",
+      "required_action": "가까운 날에 구름량이 나쁠 때 추천 강조를 어떻게 다룰지(강조 유지·완화·주의 라벨 병기 등)를 화면에서 명시하거나, 열린 항목으로 두더라도 이 상호작용을 Assumptions에 적어 설계 단계로 넘긴다.",
+      "status": "New",
+      "introduced_in_review": true
+    },
+    {
+      "id": "R-06",
+      "severity": "Minor",
+      "location": "aidlc/spaces/default/intents/261025-stargazing-planner/ideation/rough-mockups/user-flow.md > 핵심 흐름 (해피 패스) 5단계",
+      "finding": "핵심 가치가 \"여러 밤을 비교\"인데 MVP의 유일한 비교 수단이 뒤로가기 후 다른 카드 재진입이다. 두 날의 완전한 밤 구간·조도·구름을 나란히 볼 방법이 없어, 사용자는 이전 상세 화면의 수치를 기억에 의존해 비교해야 한다.",
+      "required_action": "러프 단계에서 해결할 필요는 없으나, 메인 카드에 비교에 충분한 핵심 수치(완전한 밤 길이 등)를 요약으로 노출할지를 Refined Mockups에서 검토하도록 열린 항목으로 남긴다.",
+      "status": "New",
+      "introduced_in_review": true
+    }
+  ],
+  "body": "## Review\n\n**Verdict:** READY\n**Reviewer:** aidlc-product-lead-agent\n**Date:** 2026-10-25T14:24:22Z\n**Iteration:** 1\n**Verdict Dictated:** no\n\n### Findings\n\n**Prior findings**\n\n| ID | Now | Severity | Note |\n|---|---|---|---|\n\n**New findings**\n\n| Severity | Location | Finding | Required action |\n|---|---|---|---|\n| Major | aidlc/spaces/default/intents/261025-stargazing-planner/ideation/rough-mockups/wireframes.md > 화면 1: 메인 — 연휴/주말 카드 목록 | 추천 강조가 달 위상(어두운 밤)만으로 결정되므로, 달은 어둡지만 구름이 많은 날도 \"추천\"으로 노란 테두리·별 아이콘·라벨이 붙는다. 카드에 \"추천\"과 \"흐림\"이 동시에 보이면, 좋은 관측 밤을 고른다는 핵심 가치에서 사용자에게 모순된 신호가 된다. | 가까운 날에 구름량이 나쁠 때 추천 강조를 어떻게 다룰지(강조 유지·완화·주의 라벨 병기 등)를 화면에서 명시하거나, 열린 항목으로 두더라도 이 상호작용을 Assumptions에 적어 설계 단계로 넘긴다. |\n| Minor | aidlc/spaces/default/intents/261025-stargazing-planner/ideation/rough-mockups/user-flow.md > 핵심 흐름 (해피 패스) 5단계 | 핵심 가치가 \"여러 밤을 비교\"인데 MVP의 유일한 비교 수단이 뒤로가기 후 다른 카드 재진입이다. 두 날의 완전한 밤 구간·조도·구름을 나란히 볼 방법이 없어, 사용자는 이전 상세 화면의 수치를 기억에 의존해 비교해야 한다. | 러프 단계에서 해결할 필요는 없으나, 메인 카드에 비교에 충분한 핵심 수치(완전한 밤 길이 등)를 요약으로 노출할지를 Refined Mockups에서 검토하도록 열린 항목으로 남긴다. |\n\n### Summary\n\n두 화면, 카드 정보, 이중축 상세 그래프, 핵심 흐름, 상태(로딩·에러·부분·빈), 접근성 메모, 다크모드·노란 테두리 강조가 모두 상위 산출물과 답변에 추적되어 구현 가능한 수준이다. 막는 결함은 없으며, 승인 전 검토용으로 추천 강조와 구름의 상호작용(Major), 비교 수단의 한계(Minor) 두 가지를 짚었다.\n",
+  "recorded_at": "2026-10-25T14:25:48Z"
+}

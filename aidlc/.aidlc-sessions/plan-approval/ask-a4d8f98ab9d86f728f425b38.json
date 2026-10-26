@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "askId": "75d17dfc4da0154cc1cab0118d205521",
+  "intentId": "01a1728b-1350-7dc4-871b-d77cc1b37d9f",
+  "targets": [
+    {
+      "unit": "u2-weather-data",
+      "targetId": "unit:u2-weather-data",
+      "fingerprint": "sha256:v3:65c6b658a62c9ac5ccab1faf211a30e4ab1dc475b74f98af71a31b0e7fde1f6d"
+    }
+  ],
+  "question": "Approve the code plan for u2-weather-data?",
+  "choices": [
+    "Approve Plan",
+    "Request Changes",
+    "I'll edit the files"
+  ],
+  "mode": "ask",
+  "bound": true,
+  "issuedAt": "2026-10-26T14:42:31Z",
+  "shownIn": {
+    "sess_11306b12-bfb5-4d1b-a2c7-77f0ad9f695f": "2026-10-26T14:42:31Z"
+  },
+  "repliesFrom": {
+    "shard": "aidlc/spaces/default/intents/261025-stargazing-planner/audit/84121-local-47b34411d28e.md",
+    "offset": 345924
+  }
+}

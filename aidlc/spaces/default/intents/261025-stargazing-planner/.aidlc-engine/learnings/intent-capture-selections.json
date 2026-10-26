@@ -1,0 +1,23 @@
+{
+  "stage_slug": "intent-capture",
+  "space": "default",
+  "intent": "261025-stargazing-planner",
+  "selections": [
+    {
+      "candidate_id": "c1",
+      "type": "learning",
+      "scope": "project",
+      "heading": "## Corrections",
+      "text": "이 앱의 핵심 가치는 특정 천문 이벤트(은하수·행성·유성우·별자리) 비교가 아니라 \"달 위상 + 구름 양 + 박명(완전한 밤 구간) 그래프\"로 좋은 관측 밤을 고르는 것이다; 전자는 열린 항목으로만 둔다.",
+      "source": "user_addition"
+    },
+    {
+      "candidate_id": "c2",
+      "type": "learning",
+      "scope": "project",
+      "heading": "## Corrections",
+      "text": "관측 위치는 개별 명소가 아니라 박명 시각이 유의미하게 달라지는 한국 ~5개 지역 구획으로 다룬다(시골 관측 전제).",
+      "source": "user_addition"
+    }
+  ]
+}

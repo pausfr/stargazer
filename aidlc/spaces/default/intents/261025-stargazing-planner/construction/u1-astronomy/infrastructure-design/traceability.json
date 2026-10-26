@@ -1,0 +1,10 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u1-astronomy",
+  "upstream_ids": ["NFR6.1", "NFR6.2", "NFR6.3"],
+  "coverage": [
+    { "id": "NFR6.1", "status": "OK", "target": "CI 빌드 게이트: 하드코딩 시크릿 0건 확인(secret scan)" },
+    { "id": "NFR6.2", "status": "N/A", "target": "입력 검증은 코드 내 로직(SD1), 인프라 대상 아님" },
+    { "id": "NFR6.3", "status": "N/A", "target": "순수 함수·네트워크 없음은 코드 설계 속성, 인프라 대상 아님" }
+  ]
+}

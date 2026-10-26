@@ -1,0 +1,34 @@
+{
+  "stage": "functional-design",
+  "unit": "u1-astronomy",
+  "upstream_ids": [
+    "AC1.3.1", "AC1.3.2", "AC1.3.3",
+    "AC2.1.1", "AC2.1.2", "AC2.1.3", "AC2.1.4",
+    "AC3.1.1", "AC3.1.2", "AC3.1.3",
+    "AC3.2.1", "AC3.2.2", "AC3.2.3",
+    "AC4.2.1", "AC4.2.2"
+  ],
+  "coverage": [
+    { "id": "AC1.3.1", "status": "OK", "target": "BR1.1" },
+    { "id": "AC1.3.2", "status": "N/A", "target": "구름 요약, delivered by u2-weather-data/u4-web-ui" },
+    { "id": "AC1.3.3", "status": "N/A", "target": "구름 없음 표시, delivered by u2-weather-data/u4-web-ui" },
+    { "id": "AC2.1.1", "status": "OK", "target": "BR1.1" },
+    { "id": "AC2.1.2", "status": "N/A", "target": "추천 판정 규칙, delivered by u3-domain-rules" },
+    { "id": "AC2.1.3", "status": "OK", "target": "BR1.1" },
+    { "id": "AC2.1.4", "status": "N/A", "target": "강조 표시, delivered by u4-web-ui" },
+    { "id": "AC3.1.1", "status": "OK", "target": "BR1.1" },
+    { "id": "AC3.1.2", "status": "OK", "target": "BR2.1, BR2.2" },
+    { "id": "AC3.1.3", "status": "N/A", "target": "구름 곡선 없음 안내, delivered by u4-web-ui" },
+    { "id": "AC3.2.1", "status": "OK", "target": "BR2.2, BR3.1" },
+    { "id": "AC3.2.2", "status": "N/A", "target": "범례 표시, delivered by u4-web-ui" },
+    { "id": "AC3.2.3", "status": "OK", "target": "BR3.1" },
+    { "id": "AC4.2.1", "status": "OK", "target": "BR5.1" },
+    { "id": "AC4.2.2", "status": "OK", "target": "BR5.1" }
+  ],
+  "reverse": [
+    { "id": "BR2.1", "status": "N/A", "target": "박명 3종 경계 계산(FR3.3 파생), AC3.1.2를 BR2.2와 함께 뒷받침하는 계산 규칙" },
+    { "id": "BR3.2", "status": "N/A", "target": "\"그날 밤\" 입력 없을 때의 기본 범위 정책(FR3.4 파생), BR3.1을 결정론적으로 만드는 보조 규칙" },
+    { "id": "BR4.1", "status": "N/A", "target": "표시 정밀도 정책(파생 요구 FR4.2), 수용기준 직접 대응 없음" },
+    { "id": "BR4.2", "status": "N/A", "target": "KST/UTC 시간대 정책(C3·FR4.1), 수용기준 직접 대응 없음" }
+  ]
+}

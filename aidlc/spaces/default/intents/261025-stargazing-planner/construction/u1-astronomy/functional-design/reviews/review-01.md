@@ -1,0 +1,29 @@
+## Review
+
+**Verdict:** NOT-READY
+**Reviewer:** aidlc-architecture-reviewer-agent
+**Date:** 2026-10-26T12:30:48Z
+**Iteration:** 1
+**Verdict Dictated:** no
+
+U1 u1-astronomy의 Functional Design을 적대적으로 검토했다. traceability의 AC 열거·BR 매핑·N/A 사유·역추적은 모두 견고하고, mermaid ER 다이어그램 문법도 유효하며 설계 수준 경계(구현 코드 없음)도 지켜졌다. 그러나 이 단위가 **소유한 계약 C1**과 산출물(entities.md/functional-spec.md) 사이에 기록되지 않은 불일치가 있고, 그 불일치 때문에 U1이 자기 책임인 BR3.1(월출/월몰 "그날 밤" 판정)을 결정론적으로 구현할 입력이 계약에 존재하지 않는다. 이는 구현 시점/통합 시점에 반드시 깨지므로 수정이 필요하다.
+
+### Findings
+
+| ID | Severity | Location | Finding | Required action | Status |
+|---|---|---|---|---|---|
+| R-01 | Critical | construction/u1-astronomy/functional-design/entities.md > AstronomyInput, 그리고 functional-spec.md > WF1 step 6 | 월출/월몰의 "그날 밤" 판정(BR3.1/AC3.2.3)에 필요한 `nightStartKst`/`nightEndKst`를 `AstronomyInput`에 추가했으나, 이 단위가 소유한 C1 계약(contract-summary.md)의 `AstronomyInput`은 `dateKstId`/`lat`/`lon`뿐이라 해당 입력이 계약에 없다. 더구나 두 필드는 `required: false`이고 WF1 step 6은 "없으면 호출부에 위임, 처리 미정"이라고 적어, 입력이 없을 때 moonrise/moonset을 어떻게 산출하는지가 결정론적으로 정의되지 않는다. 그 결과 U1은 C1의 현재 시그니처만으로는 자기 책임인 BR3.1을 구현할 수 없다. | C1의 `AstronomyInput`에 "그날 밤" 경계를 어떻게 전달할지 확정하고(계약에 입력 필드를 추가하거나 별도 인자로 전달), 그 입력이 없을 때의 동작(예: 달력일 기준으로 판정, 혹은 오류)을 결정론적으로 명시하라. C1과 모든 호출부(U3/U4)가 같은 변경을 받도록 계약 갱신을 명시적으로 기록하라(contract-summary.md의 깨는-변경 규칙). "미정·통합 설계에서 결정"으로 남기지 말 것. | New |
+| R-02 | Major | construction/u1-astronomy/functional-design/entities.md > TwilightWindow | 소유 계약 C1의 `TwilightWindow`는 `{ start: string; end: string }`(둘 다 필수, non-null)인데, 설계의 `TwilightWindow`는 `{ duskKst: string\|null; dawnKst: string\|null }`로 필드명과 null 허용 여부가 모두 다르다. C1을 소비하는 U3/U4가 `start`/`end`에 맞춰 구현하면 깨진다. 이 변경이 어디에도 계약 갱신으로 기록되지 않았다. | `TwilightWindow`의 필드명·null 허용을 C1과 일치시키거나, C1을 `duskKst`/`dawnKst`(nullable)로 갱신하고 그 깨는-변경을 명시적으로 기록하라(제공 단위+호출부 원자적 변경 규칙). 박명 경계가 성립하지 않는 날을 null로 표현하려는 의도라면 그 의도를 C1에 반영하라. | New |
+| R-03 | Minor | construction/u1-astronomy/functional-design/traceability.json > AC3.2.3 coverage, 그리고 entities.md/rules.md의 "AC3.2.3 갱신 대상" 주석 | AC3.2.3(stories.md)은 여전히 월출/월몰 "없음" 문구 **표시**를 요구하는데, Q1 답변은 이를 "문구 없이 항목 생략, AC3.2.3 갱신 대상"으로 바꾸기로 했다. AC3.2.3을 `OK → BR3.1`로 추적한 것은 값 산출 책임 측면에서 타당하나, 상류 stories.md의 AC3.2.3 본문이 아직 갱신되지 않아 "표시" 요구와 설계 간 미반영 차이가 남아 있다(설계 경계 자체는 수용 가능 — null 반환은 U1, 표시는 U4). | AC3.2.3 문구 갱신이 U4 Functional Design에서 반영된다는 추적을 유지하되, 이 변경이 상류 미반영 상태임을 Assumptions에 더 분명히 하거나 traceability에서 표시 책임의 U4 이관을 명시하라(값 산출 OK는 그대로 둠). | New |
+
+### Validation Tool Results
+
+| Tool | Result | Interpretation |
+|---|---|---|
+| traceability (수동 교차검증) | PASS (열거/타겟/고아) | story-map이 U1에 배정한 US1.3·US2.1·US3.1·US3.2·US4.2의 모든 AC(15개)가 `upstream_ids`에 열거됨. 모든 `OK` 타겟(BR1.1·BR2.1·BR2.2·BR3.1·BR5.1)이 rules.md에 실재. reverse(BR4.1·BR4.2)로 설명되어 고아 규칙 없음. |
+| mermaid 문법 (수동) | PASS | `erDiagram` 관계 선언·엔티티 속성 블록 문법 유효. nullable은 `_nullable` 접미사로 표기(ER 문법상 `null` 미지원 회피) — 파생 뷰로 수용 가능, 텍스트 폴백도 존재. |
+| C1 계약 일관성 (수동) | FAIL | `AstronomyInput`(nightStart/End 추가)·`TwilightWindow`(필드명/null) 두 곳에서 소유 계약 C1과 불일치. 위 Critical·Major 참조. |
+
+### Summary
+
+핵심 결함은 U1이 소유한 C1 계약과 설계의 불일치다: BR3.1("그날 밤" 월출/월몰) 산출에 필요한 "그날 밤" 경계 입력이 C1에 없고 그 부재 시 동작이 결정론적으로 정의되지 않아, U1이 자기 책임을 구현할 수 없다(Critical). 더해 `TwilightWindow`의 모양이 C1과 달라 소비자(U3/U4)가 깨진다(Major). traceability·규칙 커버리지·mermaid는 건전하므로, 계약 정합을 바로잡으면 READY에 근접한다.

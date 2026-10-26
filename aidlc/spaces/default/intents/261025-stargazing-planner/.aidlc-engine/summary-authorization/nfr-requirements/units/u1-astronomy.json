@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "id": "1d4fd1a7a3fa1802b2dce775a84c0f97dc5acdaa666035f1d31d31db886c34d6",
+  "stage": "nfr-requirements",
+  "unit": "u1-astronomy",
+  "workflow": null,
+  "attempt": "WORKFLOW_STARTED:2026-10-25T10:11:19Z:/Users/glen/Documents/stargazer/aidlc/spaces/default/intents/261025-stargazing-planner/audit/84121-local-47b34411d28e.md:0",
+  "questions_file": "aidlc/spaces/default/intents/261025-stargazing-planner/construction/u1-astronomy/nfr-requirements/nfr-requirements-questions.md",
+  "questions_sha256": "05cc248a5e613b9d138abcc0e0ea12f6f1c556e380e9e3abb5c53f75dfc7be72",
+  "choice": "Looks correct",
+  "recorded_at": "2026-10-26T12:46:12Z"
+}

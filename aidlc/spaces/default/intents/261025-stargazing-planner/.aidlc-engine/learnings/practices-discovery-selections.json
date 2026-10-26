@@ -1,0 +1,23 @@
+{
+  "stage_slug": "practices-discovery",
+  "space": "default",
+  "intent": "261025-stargazing-planner",
+  "selections": [
+    {
+      "candidate_id": "c1",
+      "type": "learning",
+      "scope": "project",
+      "heading": "## Corrections",
+      "text": "워킹 스켈레톤 스탠스는 활성 스코프 기본값에 맡긴다(하드 on/off 아님). 테스트 커버리지 80% 플로어는 핵심 천문 계산 모듈에만 적용하고 UI 등 나머지는 느슨하게 둔다. 테스트 방법론은 test-after.",
+      "source": "user_addition"
+    },
+    {
+      "candidate_id": "c-user-1",
+      "type": "learning",
+      "scope": "project",
+      "heading": "## Corrections",
+      "text": "정적 앱이라 API 키를 숨길 서버가 없다. 따라서 키가 필요 없는 공개 API(Open-Meteo 등)를 우선 선택하고, 키가 꼭 필요하면 설계 단계에서 프록시를 둘지 여부를 결정한다.",
+      "source": "user_addition"
+    }
+  ]
+}

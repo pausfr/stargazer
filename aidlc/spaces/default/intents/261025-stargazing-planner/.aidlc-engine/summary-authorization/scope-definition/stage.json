@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "id": "4059502cb090b1b82424ed45c18508468fa60cb9962a4a28c9a10e5c740a01f3",
+  "stage": "scope-definition",
+  "unit": null,
+  "workflow": null,
+  "attempt": "STAGE_STARTED:2026-10-25T12:54:09Z:/Users/glen/Documents/stargazer/aidlc/spaces/default/intents/261025-stargazing-planner/audit/84121-local-47b34411d28e.md:126",
+  "questions_file": "aidlc/spaces/default/intents/261025-stargazing-planner/ideation/scope-definition/scope-definition-questions.md",
+  "questions_sha256": "8192358e71e1034b038eaf865a211324b697ffd50f534a6078e8f98fe5d0311b",
+  "choice": "Looks correct",
+  "recorded_at": "2026-10-25T13:07:43Z"
+}

@@ -1,0 +1,22 @@
+{
+  "version": 4,
+  "id": "314c06de-1b32-4f08-80eb-5cc74561863d",
+  "kind": "skeleton",
+  "unit": "u1-astronomy",
+  "fingerprint": "sha256:aad54f96a776ea4ba993768e8a8947e796397a8e1cad26b4eef230c2f8859036",
+  "command_sha256": "560272672c75d9738a7f855ccb8a1c4a8f47007e059e52b8e78ada0b5160290b",
+  "command_label": "npx tsc --noEmit && npx vitest run --coverage",
+  "started_at": "2026-10-26T13:34:59.919Z",
+  "finished_at": "2026-10-26T13:35:04.919Z",
+  "exit_code": 0,
+  "signal": null,
+  "error": null,
+  "stdout_bytes": 11262,
+  "stderr_bytes": 0,
+  "stdout_sha256": "ad67599695023d4d1a3fa8b734641ce24e48d91fcd743bea9f145ea58bcf653a",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_tail": "   0 |       0 |       0 | 1-3706            \n  aidlc-update.ts  |       0 |        0 |       0 |       0 | 1-311             \n  aidlc-usage.ts   |       0 |        0 |       0 |       0 | 1-1860            \n  aidlc-utility.ts |       0 |        0 |       0 |       0 | 1-13273           \n  ...c-validate.ts |       0 |        0 |       0 |       0 | 1-288             \n  ...c-validity.ts |       0 |        0 |       0 |       0 | 1-982             \n  aidlc-version.ts |       0 |      100 |     100 |       0 | 4                 \n  ...-uninstall.ts |       0 |        0 |       0 |       0 | 1-1279            \n  ...ace-doctor.ts |       0 |        0 |       0 |       0 | 1-284             \n  ...e-manifest.ts |       0 |        0 |       0 |       0 | 1-158             \n  ...space-sync.ts |       0 |        0 |       0 |       0 | 1-1201            \n  ...c-worktree.ts |       0 |        0 |       0 |       0 | 1-4576            \n  aidlc.ts         |       0 |        0 |       0 |       0 | 1-3949            \n ...hooks-template |       0 |        0 |       0 |       0 |                   \n  ...in-compose.ts |       0 |        0 |       0 |       0 | 1-115             \n  compose.ts       |       0 |        0 |       0 |       0 | 1-3087            \n src/astronomy     |    89.8 |    83.78 |   93.33 |    89.8 |                   \n  astronomy.ts     |      92 |    84.37 |     100 |      92 | 95-96,169-174     \n  index.ts         |       0 |        0 |       0 |       0 | 1                 \n  night-range.ts   |   93.33 |     87.5 |     100 |   93.33 | 54-55             \n  validation.ts    |   86.66 |    84.84 |     100 |   86.66 | ...,70-71,111-112 \n-------------------|---------|----------|---------|---------|-------------------\n\n=============================== Coverage summary ===============================\nStatements   : 0.11% ( 185/165712 )\nBranches     : 35.93% ( 69/192 )\nFunctions    : 15.78% ( 21/133 )\nLines        : 0.11% ( 185/165712 )\n================================================================================\n",
+  "stderr_tail": "",
+  "evidence_unchanged": true,
+  "verified": true
+}

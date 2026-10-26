@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "id": "42439a0b1224070e6b1bd9214656269b8df8a7bbfba02f2e2326e89637de1fd2",
+  "stage": "nfr-requirements",
+  "unit": "u2-weather-data",
+  "workflow": null,
+  "attempt": "WORKFLOW_STARTED:2026-10-25T10:11:19Z:/Users/glen/Documents/stargazer/aidlc/spaces/default/intents/261025-stargazing-planner/audit/84121-local-47b34411d28e.md:0",
+  "questions_file": "aidlc/spaces/default/intents/261025-stargazing-planner/construction/u2-weather-data/nfr-requirements/nfr-requirements-questions.md",
+  "questions_sha256": "85e319017024a59bc2bc7c507177d65cff4fa75a15fb16323a4adb7081678b45",
+  "choice": "Looks correct",
+  "recorded_at": "2026-10-26T14:21:15Z"
+}

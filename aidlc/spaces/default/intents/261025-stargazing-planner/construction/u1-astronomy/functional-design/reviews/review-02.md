@@ -1,0 +1,35 @@
+## Review
+
+**Verdict:** READY
+**Reviewer:** aidlc-architecture-reviewer-agent
+**Date:** 2026-10-26T12:35:39Z
+**Iteration:** 2
+**Verdict Dictated:** no
+
+### Findings
+
+| ID | Severity | Location | Finding | Required action | Status |
+|---|---|---|---|---|---|
+| R-01 | Critical | construction/u1-astronomy/functional-design/entities.md > AstronomyInput, 그리고 functional-spec.md > WF1 step 6 | 월출/월몰의 "그날 밤" 판정(BR3.1/AC3.2.3)에 필요한 `nightStartKst`/`nightEndKst`를 `AstronomyInput`에 추가했으나, 이 단위가 소유한 C1 계약(contract-summary.md)의 `AstronomyInput`은 `dateKstId`/`lat`/`lon`뿐이라 해당 입력이 계약에 없다. 더구나 두 필드는 `required: false`이고 WF1 step 6은 "없으면 호출부에 위임, 처리 미정"이라고 적어, 입력이 없을 때 moonrise/moonset을 어떻게 산출하는지가 결정론적으로 정의되지 않는다. 그 결과 U1은 C1의 현재 시그니처만으로는 자기 책임인 BR3.1을 구현할 수 없다. | C1의 `AstronomyInput`에 "그날 밤" 경계를 어떻게 전달할지 확정하고(계약에 입력 필드를 추가하거나 별도 인자로 전달), 그 입력이 없을 때의 동작(예: 달력일 기준으로 판정, 혹은 오류)을 결정론적으로 명시하라. C1과 모든 호출부(U3/U4)가 같은 변경을 받도록 계약 갱신을 명시적으로 기록하라(contract-summary.md의 깨는-변경 규칙). "미정·통합 설계에서 결정"으로 남기지 말 것. | Resolved (reviewer) |
+| R-02 | Major | construction/u1-astronomy/functional-design/entities.md > TwilightWindow | 소유 계약 C1의 `TwilightWindow`는 `{ start: string; end: string }`(둘 다 필수, non-null)인데, 설계의 `TwilightWindow`는 `{ duskKst: string\|null; dawnKst: string\|null }`로 필드명과 null 허용 여부가 모두 다르다. C1을 소비하는 U3/U4가 `start`/`end`에 맞춰 구현하면 깨진다. 이 변경이 어디에도 계약 갱신으로 기록되지 않았다. | `TwilightWindow`의 필드명·null 허용을 C1과 일치시키거나, C1을 `duskKst`/`dawnKst`(nullable)로 갱신하고 그 깨는-변경을 명시적으로 기록하라(제공 단위+호출부 원자적 변경 규칙). 박명 경계가 성립하지 않는 날을 null로 표현하려는 의도라면 그 의도를 C1에 반영하라. | Resolved (reviewer) |
+| R-03 | Minor | construction/u1-astronomy/functional-design/traceability.json > AC3.2.3 coverage, 그리고 entities.md/rules.md의 "AC3.2.3 갱신 대상" 주석 | AC3.2.3(stories.md)은 여전히 월출/월몰 "없음" 문구 **표시**를 요구하는데, Q1 답변은 이를 "문구 없이 항목 생략, AC3.2.3 갱신 대상"으로 바꾸기로 했다. AC3.2.3을 `OK → BR3.1`로 추적한 것은 값 산출 책임 측면에서 타당하나, 상류 stories.md의 AC3.2.3 본문이 아직 갱신되지 않아 "표시" 요구와 설계 간 미반영 차이가 남아 있다(설계 경계 자체는 수용 가능 — null 반환은 U1, 표시는 U4). | AC3.2.3 문구 갱신이 U4 Functional Design에서 반영된다는 추적을 유지하되, 이 변경이 상류 미반영 상태임을 Assumptions에 더 분명히 하거나 traceability에서 표시 책임의 U4 이관을 명시하라(값 산출 OK는 그대로 둠). | Resolved (reviewer) |
+| R-04 | Minor | aidlc/spaces/default/intents/261025-stargazing-planner/construction/u1-astronomy/functional-design/traceability.json > coverage/reverse 배열 | BR3.2가 어떤 `coverage` 행의 `target`으로도 참조되지 않고 `reverse` 배열에도 설명이 없어, `traceability` 센서가 기계적으로 유도하는 미설명 비즈니스 규칙 orphan에 해당한다. BR2.1도 같은 상태다(rules.md에는 존재하나 `coverage` target도 `reverse` 설명도 없음). BR4.1·BR4.2만 `reverse`에 설명되어 있다. | traceability.json에서 BR3.2를 적절한 수용기준의 `coverage` target으로 연결하거나(예: AC3.2.3 또는 AC3.2.1에 BR3.1과 함께), 아니면 `reverse` 배열에 BR3.2와 BR2.1의 비-상류 근거(FR3.4·FR3.3 파생 정책/계산)를 추가해 orphan 유도를 막는다. | New |
+
+> R-01 Reviewer note: entities.md의 AstronomyInput에 선택 입력 `nightStartKst`/`nightEndKst`가 추가되고 "그날 밤" 경계가 명시됨. 무입력 동작이 rules.md BR3.2(기본 범위 '해당 KST 날짜 18:00 ~ 다음날 06:00', "미정 아님")로 결정론적으로 정의됨. functional-spec.md WF1 step 6이 BR3.2를 적용하고 반쪽 입력은 BR5.1로 라우팅함. entities.md "C1 계약 갱신" 1번 항목이 깨는-변경을 명시 기록하고 U3·U4 호출부 동반 수정을 언급함. R-01의 모든 요구가 충족됨.
+
+> R-02 Reviewer note: TwilightWindow가 C1 필드명 `{start, end}`를 그대로 쓰며 nullable(`string \| null`)로 갱신됨. entities.md "C1 계약 갱신" 2번 항목이 C1 원안의 non-null과의 괴리를 명시 기록함. BR2.1이 미성립 경계의 null 반환을 규정하고, functional-spec.md ER 다이어그램이 `start_nullable`/`end_nullable`로 일치함. divergence가 이제 명시적으로 기록됨.
+
+> R-03 Reviewer note: AC3.2.3 상류 미반영 상태가 명확해짐: entities.md Assumptions가 "현재 stories.md의 AC3.2.3은 '없음 표시'를 요구하며 아직 상류 미반영 상태다"로 보류 상태를 분명히 기술함. rules.md BR3.1 violation_behaviour와 Q1 답변이 "AC3.2.3 갱신 대상(U4 책임)"으로 일관되게 표기함. U1은 null 반환까지만 책임진다는 경계가 명확함. (stories.md AC3.2.3의 "없음" 문구 자체는 여전히 미갱신이나, 이는 U4 상류 갱신 대상으로 명시 보류됨이 올바르게 기록됨.)
+
+### Validation Tool Results
+
+| Tool | Result | Interpretation |
+|---|---|---|
+| 상호참조 수작업 검증 (coverage target → rules.md) | PASS | coverage가 참조한 BR1.1, BR2.2, BR3.1, BR5.1이 모두 rules.md에 존재함. |
+| upstream_ids 존재 검증 (traceability → stories.md) | PASS | 나열된 15개 ACxyz(AC1.3.1~AC4.2.2)가 모두 stories.md에 실재함. |
+| 파생 orphan 점검 (rules.md ↔ traceability.json) | FLAG: BR3.2, BR2.1 미참조·미설명 | New findings의 Minor와 일치. BR3.2는 R-01 수정으로 신설된 규칙인데 traceability의 reverse가 함께 갱신되지 않음. |
+| C1 계약 정합성 (entities.md ↔ contract-summary.md C1) | PASS | 두 건의 깨는-변경(입력 경계 추가, TwilightWindow nullable)이 "C1 계약 갱신"에 명시 기록되고 호출부 동반 수정이 명시됨. 필드명 start/end 유지. |
+
+### Summary
+
+R-01(Critical)·R-02(Major)·R-03(Minor) 세 건 모두 해소됨: "그날 밤" 경계와 무입력 기본 동작이 BR3.2로 결정론적으로 정의되고, TwilightWindow가 C1 필드명 그대로 nullable로 갱신되었으며, C1 두 건의 깨는-변경과 AC3.2.3 상류 보류 상태가 명시 기록됨. 개발자가 추가 질의 없이 구현 가능한 수준이다. 남은 단 하나의 신규 지적은 traceability.json이 신설 규칙 BR3.2(및 BR2.1)를 coverage target 또는 reverse로 설명하지 않아 센서가 미설명 orphan을 유도한다는 Minor 문서화 공백으로, READY를 막지 않는다.

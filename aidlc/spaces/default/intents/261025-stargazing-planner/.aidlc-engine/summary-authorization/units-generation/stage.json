@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "id": "4a0ce9b7fcae762e11f305e02b0a88730667eb83b0b0ac2162444769af980ca6",
+  "stage": "units-generation",
+  "unit": null,
+  "workflow": null,
+  "attempt": "STAGE_STARTED:2026-10-26T06:07:00Z:/Users/glen/Documents/stargazer/aidlc/spaces/default/intents/261025-stargazing-planner/audit/84121-local-47b34411d28e.md:481",
+  "questions_file": "aidlc/spaces/default/intents/261025-stargazing-planner/inception/units-generation/units-generation-questions.md",
+  "questions_sha256": "137d54a2fcd8714a50e04a91e41412a3498ddde0c742654f129c7b0ce61033a2",
+  "choice": "Looks correct",
+  "recorded_at": "2026-10-26T06:45:47Z"
+}

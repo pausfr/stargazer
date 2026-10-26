@@ -1,0 +1,14 @@
+{
+  "stage_slug": "nfr-design",
+  "space": "default",
+  "intent": "261025-stargazing-planner",
+  "selections": [
+    {
+      "candidate_id": "c1",
+      "type": "learning",
+      "scope": "project",
+      "heading": "## Corrections",
+      "text": "단위별로 \"핵심 체크포인트만 자동 진행\"을 요청하면, 엔진 autonomy 스위치(전역)를 켜지 않고 조정자가 그 단위의 설계 리뷰 게이트만 자동으로 넘기되 요약 확인·코드 생성 계획 승인·검증 명령·단위 완료 검증 같은 핵심 체크포인트는 그대로 사람에게 받는다. 리뷰어·센서는 계속 돈다."
+    }
+  ]
+}

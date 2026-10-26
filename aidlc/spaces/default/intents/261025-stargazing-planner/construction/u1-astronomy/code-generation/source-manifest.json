@@ -1,0 +1,18 @@
+{
+  "stage": "code-generation",
+  "unit": "u1-astronomy",
+  "version": 1,
+  "writes": [
+    { "path": "package.json" },
+    { "path": "tsconfig.json" },
+    { "path": ".prettierrc.json" },
+    { "path": "eslint.config.js" },
+    { "path": "vitest.config.ts" },
+    { "path": "src/astronomy/types.ts" },
+    { "path": "src/astronomy/validation.ts" },
+    { "path": "src/astronomy/night-range.ts" },
+    { "path": "src/astronomy/astronomy.ts" },
+    { "path": "src/astronomy/index.ts" },
+    { "path": "src/astronomy/__tests__/astronomy.test.ts" }
+  ]
+}

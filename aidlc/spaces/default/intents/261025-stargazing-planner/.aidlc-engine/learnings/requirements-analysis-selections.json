@@ -1,0 +1,15 @@
+{
+  "stage_slug": "requirements-analysis",
+  "space": "default",
+  "intent": "261025-stargazing-planner",
+  "selections": [
+    {
+      "candidate_id": "c1",
+      "type": "learning",
+      "scope": "project",
+      "heading": "## Corrections",
+      "text": "\"추천(관측 좋은 날)\" 판정은 달 위상만이 아니라 달 조도가 낮고(어두운 밤) 구름도 적을 때 성립한다(구름 많으면 추천 제외). 구름 예보 데이터가 없는 날은 달 조도만으로 판정한다. 잠정 임계값은 달 조도 ≤ 20%, 구름량 ≤ 30%이며 설계에서 조정 가능. 이는 앞선 \"추천=달 위상만\" 노트를 대체한다.",
+      "source": "user_addition"
+    }
+  ]
+}

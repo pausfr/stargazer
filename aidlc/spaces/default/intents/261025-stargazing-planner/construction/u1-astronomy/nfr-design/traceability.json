@@ -1,0 +1,10 @@
+{
+  "stage": "nfr-design",
+  "unit": "u1-astronomy",
+  "upstream_ids": ["NFR6.1", "NFR6.2", "NFR6.3"],
+  "coverage": [
+    { "id": "NFR6.1", "status": "OK", "target": "SD2: 비밀값 미보유 설계(외부 호출 없음)" },
+    { "id": "NFR6.2", "status": "OK", "target": "SD1: computeAstronomy 진입점 입력 검증 게이트, fail-fast 오류 전달" },
+    { "id": "NFR6.3", "status": "OK", "target": "SD2: 순수 함수·네트워크/IO/전역상태 없음" }
+  ]
+}

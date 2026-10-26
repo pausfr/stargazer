@@ -1,0 +1,49 @@
+{
+  "version": 1,
+  "stateSignature": "bf88cd2d2d8cab53c4170b5a2ddb89107a875cdc430d27101f628927e367b037",
+  "signature": "e2cdc98c6eadea5f8b9d59b706a682005d5dcb2d610f66fcc1a9de3914ed957b",
+  "count": 1,
+  "codes": [
+    "REVIEW_EVIDENCE_MISSING"
+  ],
+  "resetToken": "GATE_REJECTED\u00002026-10-25T14:22:44Z\u0000/Users/glen/Documents/stargazer/aidlc/spaces/default/intents/261025-stargazing-planner/audit/84121-local-47b34411d28e.md\u0000212",
+  "refusal": {
+    "code": "REVIEW_EVIDENCE_MISSING",
+    "blockedAction": "present-approval-gate",
+    "stage": "rough-mockups",
+    "state": "revising",
+    "invariant": "Reviewer-bearing stages have current terminal review evidence.",
+    "userMessage": "Cannot present \"rough-mockups\" for approval because aidlc-product-lead-agent has not reviewed the current output. Apply any fixes first, then request the review with `aidlc-log.ts review --stage rough-mockups --reviewer aidlc-product-lead-agent --iteration <next ordinal>` and record its verdict with the same command plus `--verdict <READY|NOT-READY>`. After recording the verdict, do not edit this stage's output documents; include suggestions from a READY review in the approval summary instead.",
+    "remedies": [
+      {
+        "op": "request-review",
+        "action": "Request the next permitted review for the current attempt: run `aidlc engine log review --stage rough-mockups --reviewer aidlc-product-lead-agent --iteration 1 --project-dir /Users/glen/Documents/stargazer`, then dispatch the reviewer named in it as a subagent and have it write the `reviewFile` that command returns: that file is the reviewer's, so never write it yourself and never stand in for it (`.kiro/aidlc-common/protocols/stage-protocol-reviewer.md` step 1 says what to pass it). When its verdict is back, record it with the `recordVerdict` command the request returns.",
+        "requiresHuman": false,
+        "executableNow": false,
+        "interaction": "external-work"
+      },
+      {
+        "op": "finish-revision",
+        "action": "Finish the current revision without restarting the stage by running `aidlc engine orchestrate report --stage rough-mockups --result revised --project-dir /Users/glen/Documents/stargazer`. This reopens the approval gate without re-running the stage or re-asking anything.",
+        "requiresHuman": false,
+        "executableNow": false,
+        "interaction": "external-work"
+      },
+      {
+        "op": "redo-jump",
+        "label": "Start the stage over",
+        "description": "I'll redo Rough Mockups from the top. Your answers are kept, but you'll confirm the summary again and I'll save each of its documents again.",
+        "action": "Restart the stage from the top with /aidlc --stage rough-mockups. This costs more than finishing the current revision: your recorded answers survive, but you re-confirm the summary once and then save every output document again, so each one descends from the new confirmation.",
+        "operation": {
+          "kind": "restart-stage",
+          "stage": "rough-mockups"
+        },
+        "command": "aidlc engine orchestrate next --stage rough-mockups",
+        "requiresHuman": true,
+        "executableNow": true,
+        "interaction": "command"
+      }
+    ]
+  },
+  "updatedAt": "2026-10-25T14:22:48Z"
+}
