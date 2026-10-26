@@ -837,9 +837,9 @@
       "completed_at": null,
       "agent": "aidlc-architect-agent",
       "memory_path": "aidlc/spaces/default/intents/261025-stargazing-planner/construction/functional-design/memory.md",
-      "memory_entries": 1,
+      "memory_entries": 2,
       "memory_breakdown": {
-        "interpretations": 0,
+        "interpretations": 1,
         "deviations": 0,
         "tradeoffs": 0,
         "open_questions": 1
@@ -856,6 +856,20 @@
           "fire_id": "74304d9a",
           "result": "passed",
           "ts": "2026-10-26T12:38:28Z"
+        },
+        {
+          "id": "traceability",
+          "fire_id": "e7fe94a8",
+          "result": "failed",
+          "ts": "2026-10-26T14:09:31Z",
+          "detail_path": "aidlc/spaces/default/intents/261025-stargazing-planner/.aidlc-engine/sensors/functional-design/traceability-e7fe94a8.md"
+        },
+        {
+          "id": "traceability",
+          "fire_id": "9cc3da32",
+          "result": "failed",
+          "ts": "2026-10-26T14:13:20Z",
+          "detail_path": "aidlc/spaces/default/intents/261025-stargazing-planner/.aidlc-engine/sensors/functional-design/traceability-9cc3da32.md"
         }
       ],
       "outcome": "pending",

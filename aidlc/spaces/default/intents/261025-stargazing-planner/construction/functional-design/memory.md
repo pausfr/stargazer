@@ -6,6 +6,7 @@
 <!-- example: 2026-05-29T10:14:32Z — chose REST over GraphQL; the consuming team only needs CRUD, revisit if subscriptions land -->
 
 ## Deviations
+- 2026-10-26T15:30:00Z — [unit u3-domain-rules] 리뷰 iter1 NOT-READY(Major 2): traceability의 추천 분기 매핑 오류 수정. AC2.1.2(known 경로 '조도 낮으나 구름 많음 → 추천 아님')를 BR2.3(outOfHorizon)에서 BR2.2로 바로잡고, BR2.3의 실제 상류 AC2.1.3(먼 날짜 조도만 추천)을 upstream/coverage에 추가. reverse의 BR1.4·BR1.5는 FR1.1 하위 규칙으로 재분류(OK). BR2.6에 집계값 기준 경계(30% = recommended 쪽) 재확인 메모 추가(Minor).
 <!-- example: 2026-05-29T10:14:32Z — skipped the optional caching layer the stage prose suggested; the dataset is small enough that it adds risk -->
 
 ## Tradeoffs

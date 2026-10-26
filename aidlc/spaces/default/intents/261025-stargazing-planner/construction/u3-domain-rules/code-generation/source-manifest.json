@@ -1,0 +1,14 @@
+{
+  "stage": "code-generation",
+  "unit": "u3-domain-rules",
+  "version": 1,
+  "writes": [
+    { "path": "src/domain-rules/types.ts" },
+    { "path": "src/domain-rules/constants.ts" },
+    { "path": "src/domain-rules/holidays.ts" },
+    { "path": "src/domain-rules/calendar.ts" },
+    { "path": "src/domain-rules/recommend.ts" },
+    { "path": "src/domain-rules/index.ts" },
+    { "path": "src/domain-rules/__tests__/domain-rules.test.ts" }
+  ]
+}

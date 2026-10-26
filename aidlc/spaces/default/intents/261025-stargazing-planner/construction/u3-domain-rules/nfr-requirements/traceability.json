@@ -1,0 +1,15 @@
+{
+  "stage": "nfr-requirements",
+  "unit": "u3-domain-rules",
+  "upstream_ids": ["NFR1", "NFR3", "NFR4", "NFR5", "NFR6"],
+  "coverage": [
+    { "id": "NFR1", "status": "N/A", "target": "접근성(색 비의존)은 U4 UI 소관" },
+    { "id": "NFR3", "status": "OK", "target": "NFR3.1 (UI 비차단·선형 복잡도)" },
+    { "id": "NFR4", "status": "OK", "target": "NFR4.1 (간접: U3는 순수·무네트워크, 실패 격리로만 가용성 기여, BR2.4)" },
+    { "id": "NFR5", "status": "OK", "target": "NFR5.1 (외부 데이터 소스·키·유료 의존성 없음 → 무료 티어 자명 충족)" },
+    { "id": "NFR6", "status": "OK", "target": "NFR6.1, NFR6.2, NFR6.3" }
+  ],
+  "reverse": [
+    { "id": "NFR-U3-MAINT.1", "status": "N/A", "target": "공휴일 테이블 유지보수(Q3 결정) — 범위 명시·범위 밖 주말만·연 1회 수동 갱신" }
+  ]
+}

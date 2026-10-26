@@ -1,0 +1,15 @@
+{
+  "stage": "nfr-design",
+  "unit": "u3-domain-rules",
+  "upstream_ids": ["NFR3.1", "NFR4.1", "NFR5.1", "NFR6.1", "NFR6.2", "NFR6.3", "NFR-U3-MAINT.1"],
+  "coverage": [
+    { "id": "NFR6.1", "status": "OK", "target": "SD3 (외부 의존·비밀값 없음)" },
+    { "id": "NFR6.2", "status": "OK", "target": "SD1 (진입점 입력 검증 게이트)" },
+    { "id": "NFR6.3", "status": "OK", "target": "SD2 (순수성·결정론)" },
+    { "id": "NFR3.1", "status": "OK", "target": "복원력 설계 (선형 복잡도·UI 비차단)" },
+    { "id": "NFR4.1", "status": "OK", "target": "SD2 (실패 격리·외부 의존 없음)" },
+    { "id": "NFR5.1", "status": "OK", "target": "SD3 (외부 데이터 소스·키 없음)" },
+    { "id": "NFR-U3-MAINT.1", "status": "OK", "target": "SD3 (공휴일 테이블 커버 범위 상수·범위 밖 주말만)" }
+  ],
+  "reverse": []
+}

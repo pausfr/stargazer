@@ -1,0 +1,11 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u3-domain-rules",
+  "upstream_ids": ["NFR5.1", "NFR6.1", "NFR-U3-MAINT.1"],
+  "coverage": [
+    { "id": "NFR5.1", "status": "OK", "target": "무료 정적 호스팅·외부 비용 없음(cicd-pipeline 배포 모델)" },
+    { "id": "NFR6.1", "status": "OK", "target": "비밀값 없음·환경변수 불필요(cicd-pipeline 비밀값 섹션)" },
+    { "id": "NFR-U3-MAINT.1", "status": "OK", "target": "공휴일 테이블 수동 연 1회 갱신(cicd-pipeline 구성 섹션)" }
+  ],
+  "reverse": []
+}

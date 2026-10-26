@@ -1,0 +1,20 @@
+{
+  "stage": "functional-design",
+  "unit": "u3-domain-rules",
+  "upstream_ids": ["AC1.1.1", "AC1.1.2", "AC1.2.1", "AC2.1.1", "AC2.1.2", "AC2.1.3"],
+  "coverage": [
+    { "id": "AC1.1.1", "status": "OK", "target": "BR1.1" },
+    { "id": "AC1.1.2", "status": "OK", "target": "BR1.3" },
+    { "id": "AC1.2.1", "status": "OK", "target": "BR1.2" },
+    { "id": "AC2.1.1", "status": "OK", "target": "BR2.1" },
+    { "id": "AC2.1.2", "status": "OK", "target": "BR2.2" },
+    { "id": "AC2.1.3", "status": "OK", "target": "BR2.3" }
+  ],
+  "reverse": [
+    { "id": "BR1.4", "status": "OK", "target": "FR1.1 하위 규칙 — 연휴 묶음(holidayGroupId) 표현(Q3 결정)" },
+    { "id": "BR1.5", "status": "OK", "target": "FR1.1 하위 규칙 — 내장 공휴일 테이블 커버 범위/범위 밖 주말만 처리(Q1 결정)" },
+    { "id": "BR2.4", "status": "N/A", "target": "FR2.3/C3 deferred 상태 처리(Q4 결정) — 범위 안 unknown 보류" },
+    { "id": "BR2.5", "status": "N/A", "target": "FR2.4 임계값 상수화(ADR-002) 기술 규칙" },
+    { "id": "BR2.6", "status": "N/A", "target": "밤 구간 구름량 집계 기술 규칙(경계는 집계값 기준으로 확정)" }
+  ]
+}
