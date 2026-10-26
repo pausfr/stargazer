@@ -1,1 +1,3 @@
 node_modules/
+aidlc/.aidlc-sessions/
+aidlc/spaces/default/intents/*/.aidlc-engine/
