@@ -1,0 +1,22 @@
+{
+  "version": 4,
+  "id": "c72568a4-ff9d-4c47-9a5f-574d77a5f502",
+  "kind": "unit",
+  "unit": "u2-weather-data",
+  "fingerprint": "sha256:c0ddc7d41149017a205cc0ac02155b5a58b2235853050210f10beeb47918e7bd",
+  "command_sha256": "560272672c75d9738a7f855ccb8a1c4a8f47007e059e52b8e78ada0b5160290b",
+  "command_label": "npx tsc --noEmit && npx vitest run --coverage",
+  "started_at": "2026-10-26T15:08:17.778Z",
+  "finished_at": "2026-10-26T15:08:22.868Z",
+  "exit_code": 0,
+  "signal": null,
+  "error": null,
+  "stdout_bytes": 12034,
+  "stderr_bytes": 0,
+  "stdout_sha256": "fb28f41beb2c49ca82244de37762a833320cc2ce37530a96b9a01ee1fb3373cb",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_tail": "  100 |     100 |       0 | 4                 \n  ...-uninstall.ts |       0 |        0 |       0 |       0 | 1-1279            \n  ...ace-doctor.ts |       0 |        0 |       0 |       0 | 1-284             \n  ...e-manifest.ts |       0 |        0 |       0 |       0 | 1-158             \n  ...space-sync.ts |       0 |        0 |       0 |       0 | 1-1201            \n  ...c-worktree.ts |       0 |        0 |       0 |       0 | 1-4576            \n  aidlc.ts         |       0 |        0 |       0 |       0 | 1-3949            \n ...hooks-template |       0 |        0 |       0 |       0 |                   \n  ...in-compose.ts |       0 |        0 |       0 |       0 | 1-115             \n  compose.ts       |       0 |        0 |       0 |       0 | 1-3087            \n src/astronomy     |    89.8 |    83.78 |   93.33 |    89.8 |                   \n  astronomy.ts     |      92 |    84.37 |     100 |      92 | 95-96,169-174     \n  index.ts         |       0 |        0 |       0 |       0 | 1                 \n  night-range.ts   |   93.33 |     87.5 |     100 |   93.33 | 54-55             \n  validation.ts    |   86.66 |    84.84 |     100 |   86.66 | ...,70-71,111-112 \n src/weather       |   93.64 |    82.89 |   93.75 |   93.64 |                   \n  cache.ts         |     100 |      100 |     100 |     100 |                   \n  client.ts        |   87.01 |       75 |     100 |   87.01 | ...75,82-83,86-87 \n  index.ts         |       0 |        0 |       0 |       0 | 1                 \n  validation.ts    |     100 |      100 |     100 |     100 |                   \n  weather.ts       |     100 |    69.23 |     100 |     100 | 88-90,95          \n-------------------|---------|----------|---------|---------|-------------------\n\n=============================== Coverage summary ===============================\nStatements   : 0.2% ( 347/165885 )\nBranches     : 49.25% ( 132/268 )\nFunctions    : 24.16% ( 36/149 )\nLines        : 0.2% ( 347/165885 )\n================================================================================\n",
+  "stderr_tail": "",
+  "evidence_unchanged": true,
+  "verified": true
+}

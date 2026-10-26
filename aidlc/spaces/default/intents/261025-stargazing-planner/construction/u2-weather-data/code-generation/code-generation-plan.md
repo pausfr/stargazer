@@ -79,32 +79,32 @@
 
 ## 구현 단계 (스토리→코드 추적)
 
-- [ ] **Step 1 — 프로젝트 구조/프로덕션 설정 스켈레톤.** `src/weather/` 디렉터리 생성. U1에서 만든 루트 `package.json`·`tsconfig.json`·`vitest.config.ts`·`.prettierrc.json`·`eslint.config.js` 재사용(신규 의존성 없음 — Open-Meteo는 키 불필요 공개 API, `fetch`는 브라우저/Node 내장). (US1.3, US3.1, US4.1)
+- [x] **Step 1 — 프로젝트 구조/프로덕션 설정 스켈레톤.** `src/weather/` 디렉터리 생성. U1에서 만든 루트 `package.json`·`tsconfig.json`·`vitest.config.ts`·`.prettierrc.json`·`eslint.config.js` 재사용(신규 의존성 없음 — Open-Meteo는 키 불필요 공개 API, `fetch`는 브라우저/Node 내장). (US1.3, US3.1, US4.1)
 
-- [ ] **Step 2 — 테스트 러너 준비.** 기존 Vitest 설정 재사용 확인. 유닛 범위 실행 명령 기록: `npx vitest run src/weather --coverage`. 첫 테스트 작성 전에 러너가 실행 가능함을 확인. (NFR 테스트 가능성)
+- [x] **Step 2 — 테스트 러너 준비.** 기존 Vitest 설정 재사용 확인. 유닛 범위 실행 명령 기록: `npx vitest run src/weather --coverage`. 첫 테스트 작성 전에 러너가 실행 가능함을 확인. (NFR 테스트 가능성)
 
-- [ ] **Step 3 — 데이터 모델 구현 (`src/weather/types.ts`).** `CloudStatus`('known'|'outOfHorizon'|'unknown'), `HourlyCloud`{hourKst,cloudPct}, `CloudForecast`{dateKstId,status,hourlyCloudPct?,reason?}, `CloudForecastQuery`{dateKstId,lat,lon}, `CacheEntry`{cacheKey,forecast,storedAtMs,ttlMs}. 상태 불변식을 보장하는 생성 헬퍼(`knownForecast`/`outOfHorizonForecast`/`unknownForecast`)로 "known이면 reason=null, unknown이면 hourlyCloudPct=null" 제약을 타입·런타임에서 보장. `FORECAST_HORIZON_DAYS = 14` 상수를 단일 지점에 분리(BR1.3 불변식 주석: Open-Meteo 예보 범위 ≥ 14일이어야 함; Open-Meteo forecast 범위는 최대 16일이므로 14 ≤ 16 성립). (C2, entities.md)
+- [x] **Step 3 — 데이터 모델 구현 (`src/weather/types.ts`).** `CloudStatus`('known'|'outOfHorizon'|'unknown'), `HourlyCloud`{hourKst,cloudPct}, `CloudForecast`{dateKstId,status,hourlyCloudPct?,reason?}, `CloudForecastQuery`{dateKstId,lat,lon}, `CacheEntry`{cacheKey,forecast,storedAtMs,ttlMs}. 상태 불변식을 보장하는 생성 헬퍼(`knownForecast`/`outOfHorizonForecast`/`unknownForecast`)로 "known이면 reason=null, unknown이면 hourlyCloudPct=null" 제약을 타입·런타임에서 보장. `FORECAST_HORIZON_DAYS = 14` 상수를 단일 지점에 분리(BR1.3 불변식 주석: Open-Meteo 예보 범위 ≥ 14일이어야 함; Open-Meteo forecast 범위는 최대 16일이므로 14 ≤ 16 성립). (C2, entities.md)
 
-- [ ] **Step 4 — 데이터 모델 테스트 작성·실행.** types 생성 헬퍼의 상태 불변식 테스트(known→hourly 채움·reason=null, outOfHorizon→둘 다 null, unknown→hourly=null·reason 존재). (BR2.2, C2)
+- [x] **Step 4 — 데이터 모델 테스트 작성·실행.** types 생성 헬퍼의 상태 불변식 테스트(known→hourly 채움·reason=null, outOfHorizon→둘 다 null, unknown→hourly=null·reason 존재). (BR2.2, C2)
 
-- [ ] **Step 5 — 검증 게이트 구현 (`src/weather/validation.ts`).** SD1: 진입점 입력 검증 게이트(fail-fast). `dateKstId` 형식(YYYY-MM-DD·실재 날짜), `lat∈[-90,90]`, `lon∈[-180,180]`. 예외를 던지지 않고 검증 실패를 호출부에 불리언/결과로 전달(상위 orchestration이 unknown(reason="invalid input")으로 정규화). (SD1, NFR6.2, BR2.1)
+- [x] **Step 5 — 검증 게이트 구현 (`src/weather/validation.ts`).** SD1: 진입점 입력 검증 게이트(fail-fast). `dateKstId` 형식(YYYY-MM-DD·실재 날짜), `lat∈[-90,90]`, `lon∈[-180,180]`. 예외를 던지지 않고 검증 실패를 호출부에 불리언/결과로 전달(상위 orchestration이 unknown(reason="invalid input")으로 정규화). (SD1, NFR6.2, BR2.1)
 
-- [ ] **Step 6 — 검증 게이트 테스트 작성·실행.** 유효 입력 통과, 잘못된 날짜 형식/비실재 날짜/좌표 범위 밖 각각 실패. (SD1, BR2.1)
+- [x] **Step 6 — 검증 게이트 테스트 작성·실행.** 유효 입력 통과, 잘못된 날짜 형식/비실재 날짜/좌표 범위 밖 각각 실패. (SD1, BR2.1)
 
-- [ ] **Step 7 — TTL 캐시 구현 (`src/weather/cache.ts`).** `DataCache`: `cacheKey(dateKstId+lat+lon)`로 메모리 Map 저장. `get(key, nowMs)` → TTL 미만이면 forecast 반환, 아니면 미스. `set(key, forecast, ttlMs, nowMs)`. TTL 정책: known/outOfHorizon 길게(예: 60분), unknown 짧게(예: 2분). 시각은 주입 가능한 `nowMs`로 테스트 결정성 확보. (BR3.1, SD 복원력)
+- [x] **Step 7 — TTL 캐시 구현 (`src/weather/cache.ts`).** `DataCache`: `cacheKey(dateKstId+lat+lon)`로 메모리 Map 저장. `get(key, nowMs)` → TTL 미만이면 forecast 반환, 아니면 미스. `set(key, forecast, ttlMs, nowMs)`. TTL 정책: known/outOfHorizon 길게(예: 60분), unknown 짧게(예: 2분). 시각은 주입 가능한 `nowMs`로 테스트 결정성 확보. (BR3.1, SD 복원력)
 
-- [ ] **Step 8 — TTL 캐시 테스트 작성·실행.** 저장 후 TTL 이내 히트, TTL 초과 미스, unknown 짧은 TTL vs known 긴 TTL 차등 만료, cacheKey 좌표/날짜 구분. (BR3.1)
+- [x] **Step 8 — TTL 캐시 테스트 작성·실행.** 저장 후 TTL 이내 히트, TTL 초과 미스, unknown 짧은 TTL vs known 긴 TTL 차등 만료, cacheKey 좌표/날짜 구분. (BR3.1)
 
-- [ ] **Step 9 — 외부 어댑터 구현 (`src/weather/client.ts`).** SD2·SD3: `WeatherClient`가 Open-Meteo(키 불필요 공개 API)를 `fetch`+`AbortController` 타임아웃(수 초)으로 호출. `fetch`는 주입 가능(기본은 전역 fetch)해 테스트에서 네트워크 없이 스텁. 응답 파싱·검증 후에만 known으로 정규화; 실패/타임아웃/파싱불가/구름량 결측은 unknown(reason에 내부 사유). 외부 원형 응답/오류는 호출부에 노출하지 않음. 비밀값 없음(키 불필요). (SD2, SD3, BR2.1, BR2.2, BR4.1, NFR6.1·6.3)
+- [x] **Step 9 — 외부 어댑터 구현 (`src/weather/client.ts`).** SD2·SD3: `WeatherClient`가 Open-Meteo(키 불필요 공개 API)를 `fetch`+`AbortController` 타임아웃(수 초)으로 호출. `fetch`는 주입 가능(기본은 전역 fetch)해 테스트에서 네트워크 없이 스텁. 응답 파싱·검증 후에만 known으로 정규화; 실패/타임아웃/파싱불가/구름량 결측은 unknown(reason에 내부 사유). 외부 원형 응답/오류는 호출부에 노출하지 않음. 비밀값 없음(키 불필요). (SD2, SD3, BR2.1, BR2.2, BR4.1, NFR6.1·6.3)
 
-- [ ] **Step 10 — 외부 어댑터 테스트 작성·실행.** 스텁 fetch로: 성공+구름량→known, HTTP 오류→unknown, 타임아웃(AbortController)→unknown, 파싱불가 JSON→unknown, 구름량 필드 결측→unknown. 네트워크 미호출. (BR2.1, BR2.2, BR4.1)
+- [x] **Step 10 — 외부 어댑터 테스트 작성·실행.** 스텁 fetch로: 성공+구름량→known, HTTP 오류→unknown, 타임아웃(AbortController)→unknown, 파싱불가 JSON→unknown, 구름량 필드 결측→unknown. 네트워크 미호출. (BR2.1, BR2.2, BR4.1)
 
-- [ ] **Step 11 — 오케스트레이션 구현 (`src/weather/weather.ts`).** WF1 `getCloudForecast(query, deps)`: ① 검증 게이트(실패→unknown reason="invalid input", 호출 안 함) ② 캐시 조회(히트→반환, BR3.1) ③ 14일 사전 컷오프(요청일 > 오늘KST+FORECAST_HORIZON_DAYS → 호출 없이 outOfHorizon, 긴 TTL 캐시, BR1.1) ④ 14일 이내→WeatherClient 호출(known/unknown, BR1.2·BR2.1) ⑤ 결과 TTL 캐시 후 반환. u2 자동 재시도 없음(BR3.2). `nowMs`·`fetch` 주입. (WF1, BR1.1·BR1.2·BR1.3·BR2.1·BR3.1·BR3.2)
+- [x] **Step 11 — 오케스트레이션 구현 (`src/weather/weather.ts`).** WF1 `getCloudForecast(query, deps)`: ① 검증 게이트(실패→unknown reason="invalid input", 호출 안 함) ② 캐시 조회(히트→반환, BR3.1) ③ 14일 사전 컷오프(요청일 > 오늘KST+FORECAST_HORIZON_DAYS → 호출 없이 outOfHorizon, 긴 TTL 캐시, BR1.1) ④ 14일 이내→WeatherClient 호출(known/unknown, BR1.2·BR2.1) ⑤ 결과 TTL 캐시 후 반환. u2 자동 재시도 없음(BR3.2). `nowMs`·`fetch` 주입. (WF1, BR1.1·BR1.2·BR1.3·BR2.1·BR3.1·BR3.2)
 
-- [ ] **Step 12 — 오케스트레이션 테스트 작성·실행.** 캐시 히트 시 호출 없음, 14일+1일→outOfHorizon(fetch 미호출 단언), 14일 이내 성공→known, 14일 이내 실패→unknown, unknown 짧은 TTL 후 재진입 시 재호출, 잘못된 입력→unknown(호출 안 함). (WF1, WF2, BR 전반)
+- [x] **Step 12 — 오케스트레이션 테스트 작성·실행.** 캐시 히트 시 호출 없음, 14일+1일→outOfHorizon(fetch 미호출 단언), 14일 이내 성공→known, 14일 이내 실패→unknown, unknown 짧은 TTL 후 재진입 시 재호출, 잘못된 입력→unknown(호출 안 함). (WF1, WF2, BR 전반)
 
-- [ ] **Step 13 — 공개 인덱스 (`src/weather/index.ts`).** `getCloudForecast`, 타입(`CloudForecast`·`CloudStatus`·`CloudForecastQuery`·`HourlyCloud`), `DataCache`, `FORECAST_HORIZON_DAYS`를 재노출. 외부 API 원형 타입은 비노출(어댑터 경계, BR2.2). (C2)
+- [x] **Step 13 — 공개 인덱스 (`src/weather/index.ts`).** `getCloudForecast`, 타입(`CloudForecast`·`CloudStatus`·`CloudForecastQuery`·`HourlyCloud`), `DataCache`, `FORECAST_HORIZON_DAYS`를 재노출. 외부 API 원형 타입은 비노출(어댑터 경계, BR2.2). (C2)
 
-- [ ] **Step 14 — 환경/빌드 설정 확인.** `npx tsc --noEmit` 통과, `src/weather` 커버리지 ≥ 80%(핵심 계산/데이터 모듈 플로어, team.md Q4) 확인. 비밀값·키 하드코딩 없음 확인(project.md Forbidden). (NFR6.1, 커버리지 플로어)
+- [x] **Step 14 — 환경/빌드 설정 확인.** `npx tsc --noEmit` 통과, `src/weather` 커버리지 ≥ 80%(핵심 계산/데이터 모듈 플로어, team.md Q4) 확인. 비밀값·키 하드코딩 없음 확인(project.md Forbidden). (NFR6.1, 커버리지 플로어)
 
-- [ ] **Step 15 — 문서화·추적성.** 각 공개 함수 인라인 doc 주석. `code-summary.md`·`source-manifest.json`·`traceability.json`은 조정자(Step 5)가 작성.
+- [x] **Step 15 — 문서화·추적성.** 각 공개 함수 인라인 doc 주석. `code-summary.md`·`source-manifest.json`·`traceability.json`은 조정자(Step 5)가 작성.

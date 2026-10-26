@@ -1,0 +1,18 @@
+{
+  "stage": "code-generation",
+  "unit": "u2-weather-data",
+  "version": 1,
+  "writes": [
+    { "path": "src/weather/types.ts" },
+    { "path": "src/weather/validation.ts" },
+    { "path": "src/weather/cache.ts" },
+    { "path": "src/weather/client.ts" },
+    { "path": "src/weather/weather.ts" },
+    { "path": "src/weather/index.ts" },
+    { "path": "src/weather/__tests__/types.test.ts" },
+    { "path": "src/weather/__tests__/validation.test.ts" },
+    { "path": "src/weather/__tests__/cache.test.ts" },
+    { "path": "src/weather/__tests__/client.test.ts" },
+    { "path": "src/weather/__tests__/weather.test.ts" }
+  ]
+}
