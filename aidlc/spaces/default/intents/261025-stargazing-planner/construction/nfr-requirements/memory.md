@@ -2,6 +2,8 @@
 > This file is kept up to date automatically while the stage runs. Add observations at the review step, not by editing here directly.
 
 ## Interpretations
+
+- 2026-10-27T06:50:46Z — [unit u4-web-ui] ui 단위라 produces_kinds상 performance·security·tech-stack·traceability만 생성(scalability/reliability/observability는 service 전용 미적용). NFR1(접근성)·NFR2(플랫폼)은 수치 요구가 아니라 UI 표시 정책이므로 traceability에서 N/A(functional-spec/code-generation에서 적용)로 두고, NFR3·NFR4(캐시 수명)·NFR5·NFR6만 OK로 커버. 차트 라이브러리는 functional-spec 가정대로 Chart.js+annotation으로 확정.
 <!-- example: 2026-05-29T10:14:32Z — chose REST over GraphQL; the consuming team only needs CRUD, revisit if subscriptions land -->
 
 ## Deviations

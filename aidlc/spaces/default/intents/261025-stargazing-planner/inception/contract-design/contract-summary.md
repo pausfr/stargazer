@@ -41,8 +41,8 @@ types:
     astronomicalTwilight: TwilightWindow
     fullDarkStart: string | null       # 완전한 밤 시작 (ISO 시각)
     fullDarkEnd: string | null         # 완전한 밤 끝
-    moonrise: string | null            # null = "없음"(그날 밤 월출 없음) (AC3.2.3)
-    moonset: string | null             # null = "없음"(그날 밤 월몰 없음)
+    moonrise: string | null            # null = "없음"(그날 밤 월출 없음) → U4가 "월출 없음"으로 명시 표시 (AC3.2.3 확정)
+    moonset: string | null             # null = "없음"(그날 밤 월몰 없음) → U4가 "월몰 없음"으로 명시 표시 (AC3.2.3 확정)
   TwilightWindow:
     start: string          # ISO 시각
     end: string

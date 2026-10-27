@@ -1,0 +1,17 @@
+{
+  "stage": "infrastructure-design",
+  "unit": "u4-web-ui",
+  "upstream_ids": ["NFR3.1", "NFR3.2", "NFR3.3", "NFR3.4", "NFR3.5", "NFR6.1", "NFR6.2", "NFR6.3", "NFR6.4"],
+  "coverage": [
+    { "id": "NFR3.1", "status": "N/A", "target": "점진 렌더·스켈레톤은 코드 레벨(PD1), 인프라 리소스 불요; 정적 CDN 서빙이 기반(infrastructure-specification Deployment)" },
+    { "id": "NFR3.2", "status": "N/A", "target": "병렬 fetch는 코드 레벨(PD2), 인프라 리소스 불요" },
+    { "id": "NFR3.3", "status": "N/A", "target": "천문 먼저 렌더는 코드 레벨(PD1), 인프라 리소스 불요" },
+    { "id": "NFR3.4", "status": "OK", "target": "브라우저 메모리 공유 DataCache(세션 수명) — 서버 캐시 인프라 없음; infrastructure-specification Deployment(스토리지 전략)·무료 한도 보호" },
+    { "id": "NFR3.5", "status": "N/A", "target": "상세 차트 단일 인스턴스·data 갱신(PD4)은 순수 코드 레벨, 인프라 리소스 불요; 번들 크기는 monitoring-design Metrics로 관찰" },
+    { "id": "NFR6.1", "status": "OK", "target": "CI 시크릿 스캔(cicd-pipeline 스테이지 6) + 비밀값·환경변수 미주입; 키 불필요 공개 API" },
+    { "id": "NFR6.2", "status": "N/A", "target": "안전 렌더(텍스트 바인딩 전용·innerHTML 미사용, SD2)는 순수 코드 레벨, 인프라 리소스 불요; HTTPS 기본 서빙은 제공자 기본으로 별도 보장" },
+    { "id": "NFR6.3", "status": "OK", "target": "내부 사유는 로그/콘솔 전용·화면 비노출(monitoring-design Logs & Tracing, SD3와 정합)" },
+    { "id": "NFR6.4", "status": "N/A", "target": "입력 표면 최소는 코드·설계 레벨(SD4), 인프라 리소스 불요(폼·세션·인증 인프라 없음)" }
+  ],
+  "reverse": []
+}

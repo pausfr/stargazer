@@ -1,0 +1,14 @@
+{
+  "stage": "nfr-requirements",
+  "unit": "u4-web-ui",
+  "upstream_ids": ["NFR1", "NFR2", "NFR3", "NFR4", "NFR5", "NFR6", "NFR7"],
+  "coverage": [
+    { "id": "NFR1", "status": "N/A", "target": "다크모드·색 비의존 강조·접근성은 UI 표시 정책으로 functional-spec/code-generation에서 적용; NFR requirements 산출물에는 별도 요구 행 없음(사용성 NFR)" },
+    { "id": "NFR2", "status": "N/A", "target": "모바일 우선·데스크톱 비파괴 레이아웃은 UI 표시 정책으로 functional-spec/code-generation에서 적용(플랫폼 NFR)" },
+    { "id": "NFR3", "status": "OK", "target": "NFR3.1, NFR3.2, NFR3.3, NFR3.4, NFR3.5 (performance-requirements)" },
+    { "id": "NFR4", "status": "OK", "target": "NFR3.4가 겸해 커버(공유 DataCache 수명·주입은 UI 소유) + 온라인 전제. UI는 캐시 인스턴스 수명만 소유하므로 별도 NFR4.y 요구 행을 두지 않고 NFR3.4로 커버; 저장·TTL 정책 자체는 u2-weather-data 소관" },
+    { "id": "NFR5", "status": "OK", "target": "tech-stack-decisions: Chart.js 등 모든 UI 의존을 무료 라이선스로만 선택" },
+    { "id": "NFR6", "status": "OK", "target": "NFR6.1, NFR6.2, NFR6.3, NFR6.4 (security-requirements)" },
+    { "id": "NFR7", "status": "N/A", "target": "정적 호스팅 배포 형태는 packaging/배포 단계 소관; UI는 클라이언트 중심 정적 번들 구조로 정합" }
+  ]
+}

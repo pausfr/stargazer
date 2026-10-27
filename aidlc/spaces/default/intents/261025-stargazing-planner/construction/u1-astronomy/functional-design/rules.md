@@ -39,7 +39,7 @@ rules:
     applies_to: "AstronomyResult.moonrise / moonset"
     trigger: "계산 요청, nightStartKst/nightEndKst 제공 또는 BR3.2 기본 범위"
     logic: "IF 월출(또는 월몰)이 [nightStart, nightEnd] 구간 안에 있으면 THEN 그 시각(KST)을, 아니면 null을 반환한다. moonrise와 moonset은 독립적으로 null 가능(밤새 떠 있거나 아예 안 뜸)."
-    violation_behaviour: "범위 밖이면 null(UI 표시 방식은 U4 책임, AC3.2.3 갱신 대상)."
+    violation_behaviour: "범위 밖이면 null(U4는 null을 '없음'(월출 없음/월몰 없음)으로 명시 표시, AC3.2.3 확정)."
     source: FR3.4
 
   - id: BR3.2
