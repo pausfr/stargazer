@@ -1,0 +1,82 @@
+{
+  "stage": "code-generation",
+  "unit": "u4-web-ui",
+  "upstream_ids": [
+    "FR1.1", "FR1.2", "FR1.3", "FR1.4",
+    "FR2.1",
+    "FR3.1", "FR3.2", "FR3.3", "FR3.4", "FR3.5", "FR3.6",
+    "FR6.1", "FR6.2", "FR6.3",
+    "AC1.1.3", "AC1.2.2", "AC2.1.4", "AC3.2.2", "AC3.2.3", "AC3.3.1", "AC3.3.2", "AC4.1.1", "AC4.1.3", "AC4.2.1", "AC4.2.2",
+    "NFR1", "NFR2", "NFR3.1", "NFR3.2", "NFR3.3", "NFR3.4", "NFR3.5", "NFR6.1", "NFR6.2", "NFR6.3", "NFR6.4", "NFR7"
+  ],
+  "coverage": [
+    { "id": "FR1.1", "status": "OK", "target": "src/web-ui/listView.ts" },
+    { "id": "FR1.2", "status": "OK", "target": "src/web-ui/listView.ts" },
+    { "id": "FR1.3", "status": "OK", "target": "src/web-ui/listView.ts" },
+    { "id": "FR1.4", "status": "OK", "target": "src/web-ui/assembler.ts" },
+    { "id": "FR2.1", "status": "OK", "target": "src/web-ui/recommendationView.ts" },
+    { "id": "FR3.1", "status": "OK", "target": "src/web-ui/detailView.ts" },
+    { "id": "FR3.2", "status": "OK", "target": "src/web-ui/chart.ts" },
+    { "id": "FR3.3", "status": "OK", "target": "src/web-ui/chart.ts" },
+    { "id": "FR3.4", "status": "OK", "target": "src/web-ui/summaryView.ts" },
+    { "id": "FR3.5", "status": "OK", "target": "src/web-ui/chart.ts" },
+    { "id": "FR3.6", "status": "OK", "target": "src/web-ui/detailView.ts" },
+    { "id": "FR6.1", "status": "OK", "target": "src/web-ui/state.ts" },
+    { "id": "FR6.2", "status": "OK", "target": "src/web-ui/detailView.ts" },
+    { "id": "FR6.3", "status": "OK", "target": "src/web-ui/state.ts" },
+    { "id": "AC1.1.3", "status": "OK", "target": "src/web-ui/listView.ts" },
+    { "id": "AC1.2.2", "status": "OK", "target": "src/web-ui/listView.ts" },
+    { "id": "AC2.1.4", "status": "OK", "target": "src/web-ui/recommendationView.ts" },
+    { "id": "AC3.2.2", "status": "OK", "target": "src/web-ui/detailView.ts" },
+    { "id": "AC3.2.3", "status": "OK", "target": "src/web-ui/summaryView.ts" },
+    { "id": "AC3.3.1", "status": "OK", "target": "src/web-ui/app.ts" },
+    { "id": "AC3.3.2", "status": "OK", "target": "src/web-ui/detailView.ts" },
+    { "id": "AC4.1.1", "status": "OK", "target": "src/web-ui/state.ts" },
+    { "id": "AC4.1.3", "status": "OK", "target": "src/web-ui/state.ts" },
+    { "id": "AC4.2.1", "status": "OK", "target": "src/web-ui/detailView.ts" },
+    { "id": "AC4.2.2", "status": "OK", "target": "src/web-ui/detailView.ts" },
+    { "id": "NFR1", "status": "OK", "target": "src/web-ui/styles.css" },
+    { "id": "NFR2", "status": "OK", "target": "src/web-ui/styles.css" },
+    { "id": "NFR3.1", "status": "OK", "target": "src/web-ui/listView.ts" },
+    { "id": "NFR3.2", "status": "OK", "target": "src/web-ui/listView.ts" },
+    { "id": "NFR3.3", "status": "OK", "target": "src/web-ui/assembler.ts" },
+    { "id": "NFR3.4", "status": "OK", "target": "src/web-ui/app.ts" },
+    { "id": "NFR3.5", "status": "OK", "target": "src/web-ui/chart.ts" },
+    { "id": "NFR6.1", "status": "OK", "target": "src/web-ui/state.ts" },
+    { "id": "NFR6.2", "status": "OK", "target": "src/web-ui/detailView.ts" },
+    { "id": "NFR6.3", "status": "OK", "target": "src/web-ui/state.ts" },
+    { "id": "NFR6.4", "status": "OK", "target": "src/web-ui/app.ts" },
+    { "id": "NFR7", "status": "OK", "target": "vite.config.ts" }
+  ],
+  "reverse": [
+    { "id": "C1.moonHourly", "status": "N/A", "target": "src/astronomy/types.ts" },
+    { "id": "defect-6", "status": "N/A", "target": "src/astronomy/astronomy.ts" }
+  ],
+  "fixes": {
+    "A": {
+      "summary": "C1 moonHourly 확장 + 시간별 체감 밝기 계산",
+      "targets": ["src/astronomy/types.ts", "src/astronomy/astronomy.ts", "src/astronomy/index.ts"],
+      "traces": ["C1.moonHourly", "FR3.2"]
+    },
+    "B": {
+      "summary": "computeMoonRiseSet 비대칭 버그(defect 6) 수정 — 월몰을 월출 이후부터 탐색",
+      "targets": ["src/astronomy/astronomy.ts"],
+      "traces": ["defect-6", "AC3.2.3"]
+    },
+    "C": {
+      "summary": "u1 회귀 테스트 — moonHourly·월출몰 대칭성",
+      "targets": ["src/astronomy/__tests__/moonHourly.test.ts", "src/astronomy/__tests__/astronomy.test.ts"],
+      "traces": ["C1.moonHourly", "defect-6"]
+    },
+    "D": {
+      "summary": "chart.ts — 달 체감 밝기 시계열 꺾은선(5)·X축 KST HH:MM(2)·박명 음영 밴드 농도 차등+라벨(7/8)·월출몰/일몰일출 세로선",
+      "targets": ["src/web-ui/chart.ts"],
+      "traces": ["FR3.2", "FR3.3", "FR3.5"]
+    },
+    "E": {
+      "summary": "summaryView/detailView — 요약 null 값 중복 제거(값 전용)·범례 곡선 설명 갱신",
+      "targets": ["src/web-ui/summaryView.ts", "src/web-ui/detailView.ts"],
+      "traces": ["FR3.4", "AC3.2.3"]
+    }
+  }
+}

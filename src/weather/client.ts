@@ -40,7 +40,22 @@ const OPEN_METEO_BASE = 'https://api.open-meteo.com/v1/forecast';
 /** 기본 타임아웃(수 초, BR4.1). */
 const DEFAULT_TIMEOUT_MS = 5000;
 
-/** 주어진 날짜 1일에 대한 시간별 cloud_cover 쿼리 URL을 만든다. */
+/** YYYY-MM-DD 날짜 키의 다음날을 구한다(UTC 달력 기준, KST 날짜 롤오버 무해). */
+function nextDateKstId(dateKstId: string): string {
+  const [y, m, d] = dateKstId.split('-').map(Number);
+  const next = new Date(Date.UTC(y, m - 1, d + 1));
+  const yy = next.getUTCFullYear().toString().padStart(4, '0');
+  const mm = (next.getUTCMonth() + 1).toString().padStart(2, '0');
+  const dd = next.getUTCDate().toString().padStart(2, '0');
+  return `${yy}-${mm}-${dd}`;
+}
+
+/**
+ * 그날 밤(저녁~다음날 새벽)을 모두 덮도록 **그날과 다음날** 이틀치 시간별
+ * cloud_cover 쿼리 URL을 만든다. 하루치(start=end=그날)만 받으면 자정을
+ * 넘어가는 새벽 구간(00~06시)에 구름 데이터가 없어 그래프가 23시에서
+ * 끊겼다 — end_date를 다음날로 확장해 밤 전체를 덮는다.
+ */
 function buildUrl(query: CloudForecastQuery): string {
   const params = new URLSearchParams({
     latitude: String(query.lat),
@@ -48,9 +63,29 @@ function buildUrl(query: CloudForecastQuery): string {
     hourly: 'cloud_cover',
     timezone: 'Asia/Seoul',
     start_date: query.dateKstId,
-    end_date: query.dateKstId,
+    end_date: nextDateKstId(query.dateKstId),
   });
   return `${OPEN_METEO_BASE}?${params.toString()}`;
+}
+
+/** Open-Meteo 응답 시각 형식(오프셋 없는 로컬 벽시계). 예: "2026-10-29T00:00". */
+const BARE_LOCAL_TIME_RE = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/;
+
+/**
+ * Open-Meteo가 돌려주는 오프셋 없는 벽시계 시각 문자열에 KST 오프셋을
+ * 명시적으로 붙인다(C2 계약: hourKst는 "ISO 시각(KST)"이어야 함).
+ *
+ * 결함 수정: 요청 시 timezone=Asia/Seoul을 지정해 응답 시각은 이미 KST
+ * 벽시계값이지만, 오프셋이 없는 문자열(예: "2026-10-29T00:00")을 그대로
+ * Date.parse하면 JS가 이를 UTC로 해석해 9시간이 밀린다. 그 결과 밤 구간
+ * 집계(aggregateNightCloudPct)가 엉뚱한 시간대를 보거나 구간을 놓쳐
+ * 구름량이 표시되지 않는 원인이 됐다. +09:00을 명시해 교정한다.
+ */
+function normalizeToKstIso(rawTime: string): string {
+  if (BARE_LOCAL_TIME_RE.test(rawTime)) {
+    return `${rawTime}:00+09:00`;
+  }
+  return rawTime; // 이미 오프셋이 있으면 그대로(상위 호환).
 }
 
 /**
@@ -76,16 +111,16 @@ function parseHourlyCloud(payload: unknown): HourlyCloud[] | null {
 
   const result: HourlyCloud[] = [];
   for (let i = 0; i < times.length; i += 1) {
-    const hourKst = times[i];
+    const rawTime = times[i];
     const cloudPct = clouds[i];
-    if (typeof hourKst !== 'string') {
+    if (typeof rawTime !== 'string') {
       return null;
     }
     if (typeof cloudPct !== 'number' || Number.isNaN(cloudPct)) {
       // 특정 시각 결측은 건너뛰지 않고 전체를 결측으로 본다(보수적, BR2.1).
       return null;
     }
-    result.push({ hourKst, cloudPct });
+    result.push({ hourKst: normalizeToKstIso(rawTime), cloudPct });
   }
   return result.length > 0 ? result : null;
 }
@@ -99,7 +134,12 @@ export class WeatherClient {
 
   constructor(options: WeatherClientOptions = {}) {
     // 기본 전역 fetch(Node 18+/브라우저 내장). 비밀값·키 없음(SD3).
-    this.fetchImpl = options.fetchImpl ?? (globalThis.fetch as unknown as FetchLike);
+    // 반드시 globalThis에 bind한다: 브라우저의 fetch는 this가 window(globalThis)가
+    // 아니면 "Illegal invocation" TypeError를 동기적으로 던진다. 변수로 떼어
+    // 호출하면(this=WeatherClient 인스턴스) 네트워크 요청이 시작조차 안 되고
+    // 즉시 예외 → 모든 날짜가 unknown으로 떨어져 구름량이 영영 안 나왔다.
+    const defaultFetch = globalThis.fetch.bind(globalThis) as unknown as FetchLike;
+    this.fetchImpl = options.fetchImpl ?? defaultFetch;
     this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
   }
 

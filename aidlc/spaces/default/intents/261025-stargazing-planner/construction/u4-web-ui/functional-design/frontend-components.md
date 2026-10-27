@@ -98,28 +98,32 @@ const sharedWeatherCache = new DataCache();
 ```ts
 // Chart.js 구성 개요(완성 코드는 code-generation):
 //  type: 'line'
-//  scales: { x:{type:'time' 또는 category},
+//  scales: { x:{type:'linear'(epoch ms), ticks.callback로 KST HH:MM 포맷},
 //            yMoon:{position:'left', min:0, max:100},
 //            yCloud:{position:'right', min:0, max:100} }
 //  datasets:
-//    - 달 밝기: astro.moonIlluminationPct는 단일 스칼라(시계열 아님, §2.1).
-//      x축 양 끝 두 점에 같은 y값을 찍어 밤 전 구간 "수평 기준선"으로 표시, yAxisID:'yMoon'.
-//      (시간별 달 밝기 곡선은 C1 계약에 없음 → 범위 밖)
+//    - 달 체감 밝기: astro.moonHourly[] 시간별 꺾은선(월출 ~0 → 남중 피크 → 월몰 ~0, §2.1 갱신).
+//      각 점 { x: Date.parse(hourKst), y: relativeBrightnessPct }, yAxisID:'yMoon'. 수평 기준선 아님.
+//      (위상값 moonIlluminationPct는 곡선이 아니라 NightSummary의 "달 밝기(위상)"로 표기)
 //    - 구름량: cloud.status==='known' 일 때만 cloud.hourlyCloudPct 시계열, yAxisID:'yCloud'.
 //      그 외 상태는 구름 데이터셋·우축 숨김.
-//  plugins.annotation.annotations (null이면 해당 box 생략):
-//    civilTwilight.start~end box, nauticalTwilight.start~end box, astronomicalTwilight.start~end box
-//      — 각 box는 start 또는 end가 null이면 그리지 않음(해당 박명 미성립).
-//    fullDark box: fullDarkStart~fullDarkEnd — 둘 중 하나라도 null이면 그리지 않음.
+//  x축 눈금: ticks.callback(ms) → KST "HH:MM"(계산 epoch와 표시 분리; epoch 원본값 노출 금지).
+//  plugins.annotation.annotations (null이면 해당 box 생략) — 어두워지는 순 농도 차등 + box 내부 라벨:
+//    civilTwilight box(옅은 음영, 라벨 "시민"), nauticalTwilight box(중간 음영, 라벨 "항해"),
+//    astronomicalTwilight box(진한 음영, 라벨 "천문"), fullDark box(가장 진한 음영, 라벨 "완전한 밤").
+//      — 각 box는 start 또는 end가 null이면 그리지 않음. 겹침은 안쪽(더 어두운) 음영이 이기도록 레이어링.
 ```
-- 달 밝기는 **수평 기준선**("그날 밤 대표 조도")으로 표기하고 범례·축 설명에 명시. 시간축 곡선 아님.
-- `cloud.status!=='known'`이면 구름 데이터셋·우축을 숨기고 달 밝기 기준선·박명만 표시.
+- 달 밝기는 **시간별 체감 밝기 꺾은선**(moonHourly)으로 그린다. 밤새 달 고도에 따른 대기소광×입사각×위상으로 월출/월몰 근처가 낮고 남중 근처가 높다. 수평 기준선 아님(§2.1 갱신).
+- x축은 epoch ms로 계산하되 눈금은 KST HH:MM로 포맷해 표시한다(원본 ms 노출 금지).
+- 박명 음영은 시민<항해<천문<완전한 밤 순으로 농도를 높이고, 각 box 안에 라벨 텍스트를 넣어 가시성을 확보한다. 겹침은 안쪽 음영 우선.
+- `cloud.status!=='known'`이면 구름 데이터셋·우축을 숨기고 달 밝기 곡선·박명만 표시.
 - 박명/완전한 밤 음영은 위 null 규칙으로 안전하게 생략 처리(예: 서울 하지 무렵 천문박명 미성립).
 - 다크 배경 대비를 위해 축/그리드/폰트 색 지정.
 
 ### NightSummary (props: `astro: AstronomyResult`)
-- 완전한 밤: `fullDarkStart`~`fullDarkEnd`(둘 중 null이면 "없음" 처리).
-- 월출/월몰: `moonrise`/`moonset`가 `null`이면 각각 "월출 없음"/"월몰 없음"(AC3.2.3).
+- 달 밝기(위상): `moonIlluminationPct`를 "달 밝기" 행으로 표기(곡선과 별개의 위상 지표).
+- 완전한 밤: `fullDarkStart`~`fullDarkEnd`(둘 중 null이면 값 "없음"; 라벨 "완전한 밤").
+- 월출/월몰: `moonrise`/`moonset`가 `null`이면 **값만 "없음"**(라벨 "월출"/"월몰"이 맥락 제공). 라벨과 값에 "월출"/"월몰"을 중복 출력하지 않는다(종전 "월몰 월몰 없음" 중복 보완, AC3.2.3).
 
 ## 5. 에러 / 로딩 처리 (통합)
 
@@ -134,6 +138,32 @@ const sharedWeatherCache = new DataCache();
 
 - 날씨 실패는 전체를 막지 않음(partial), 천문 실패만 화면/카드 차단(error). U2 무예외·U1 예외 계약과 일치.
 - 캐시는 U2 소유(AC4.1.2); UI는 재방문 시 자연 활용.
+
+## 5.5. 스타일링 명세 (필수 — 전용 스타일시트)
+
+> 리뷰에서 발견된 누락 보완(2026-10-27): 앞선 구현이 컴포넌트 className만 붙이고 대응 CSS를 작성하지 않아 화면이 맨 텍스트로 렌더됐다. 이 절은 **전용 스타일시트가 필수 산출물**임을 설계로 못박는다. className과 그 스타일 규칙은 한 쌍으로 함께 존재해야 한다(code completeness).
+
+- **스타일시트 파일**: `src/web-ui/styles.css`(전용 파일)를 신설하고 `src/main.ts`(또는 `index.html`)에서 import한다. index.html의 인라인 `<style>`은 CSS 변수(테마 토큰)와 `html/body/#app` 기본만 두고, **컴포넌트 스타일은 모두 `styles.css`**에 둔다. Vite가 번들에 포함한다.
+- **테마 토큰 재사용**: index.html에 정의된 CSS 변수(`--bg`, `--surface`, `--surface-2`, `--text`, `--text-dim`, `--border`, `--accent`, `--accent-text`, `--danger`)를 사용한다. 다크모드 기본(NFR1).
+- **클래스↔스타일 쌍 목록**(코드가 붙이는 className 전부에 규칙이 있어야 함):
+  - `.card` — 메인 목록 카드: `--surface` 배경, `--border` 1px 테두리, 라운드(12px), 패딩, 카드 간 세로 간격, 탭 가능한 커서/누름 상태. 날짜·연휴명(제목), 달 아이콘+조도, 구름 요약을 한 카드 안에 정렬(모바일 세로: 세로 스택, 데스크톱: 여유 폭).
+  - `.card.recommended` — 추천 강조: `--accent`(노란색) 2px 테두리 + 별 아이콘(형태) + "추천" 라벨(텍스트). **색 비의존**(NFR1·AC2.1.4): 테두리 색 외에 아이콘·라벨이 항상 함께 보이도록 한다.
+  - `.badge-recommend` — "추천" 배지: `--accent` 배경·`--accent-text` 글자, 별 아이콘 포함.
+  - `.moon-illum` / `.cloud-summary` — 달 조도·구름 요약 텍스트 스타일(보조 텍스트는 `--text-dim`).
+  - `.skeleton` — 로딩 스켈레톤: `--surface-2` 블록 + 은은한 shimmer(prefers-reduced-motion 존중).
+  - `.empty-state` — 빈 목록 안내 중앙 정렬 보조 텍스트.
+  - `.detail` 영역 — 상세 화면 컨테이너.
+  - `.chart-wrap`(또는 뷰가 쓰는 차트 컨테이너 클래스) — 차트 영역: 고정 높이(예: 320px)와 100% 폭을 **명시**(Chart.js canvas는 부모 크기에 의존하므로 높이를 안 주면 그래프가 안 보이거나 0 높이가 된다). 다크 배경 대비. 박명 음영은 시민<항해<천문<완전한 밤 순으로 농도를 높이고(색 농도/투명도 차등), 각 음영 영역 안의 라벨 텍스트는 다크 배경에서 읽히는 대비를 확보한다.
+  - `.summary` / `.summary-row` — 핵심 숫자 요약(완전한 밤·월출·월몰) 라벨-값 행. "없음" 값도 동일 스타일로 표시(AC3.2.3).
+  - `.legend` — 범례: 선·음영 의미를 색 견본 + 텍스트로(색 비의존).
+  - `.notice` / `.notice-far` — partial "구름량 알 수 없음", outOfHorizon "날씨는 날짜가 가까워지면" 안내. 중립 톤(`--text-dim`), 에러 아님.
+  - `.error` / `.btn-retry` — 천문 실패 에러 블록(`--danger` 강조 + 아이콘/텍스트)과 "다시 시도" 버튼(명확한 버튼 형태·누름 상태·충분한 탭 타깃 ≥44px).
+  - `.btn-back` — 뒤로가기 버튼.
+- **반응형**: 모바일 세로 우선(기본 1열), 데스크톱은 `#app`의 `max-width`(720px) 안에서 비파괴 확장(NFR2). 미디어쿼리로 카드 내부 정렬만 조정, 레이아웃 붕괴 없음.
+- **접근성**: 탭 타깃 최소 크기, 포커스 가시성(`:focus-visible`), 다크 배경에서 본문/보조 텍스트 대비 확보, 색 비의존 강조(위 `.recommended`·`.legend`).
+- **안전 렌더 유지(NFR6)**: 스타일은 class 토글로만 적용하고, 사용자 노출 문자열은 계속 `textContent`로 바인딩한다(innerHTML 금지). 스타일 추가가 이 규칙을 바꾸지 않는다.
+
+이 절은 code-generation에서 `styles.css`를 실제로 작성하고 각 뷰가 위 className을 부여하도록 요구한다. 스타일시트 없는 산출물은 미완성으로 본다.
 
 ## 6. 접근성·반응형 체크리스트
 

@@ -1,109 +1,30 @@
 {
-  "unit": "u2-weather-data",
   "stage": "code-generation",
-  "entries": [
-    {
-      "id": "AC1.3.2",
-      "description": "카드 구름 요약 — known 구름량 제공",
-      "status": "OK",
-      "targets": ["src/weather/weather.ts", "src/weather/client.ts", "src/weather/__tests__/client.test.ts"]
-    },
-    {
-      "id": "AC1.3.3",
-      "description": "먼 날짜 '곧 표시' — outOfHorizon 상태 제공",
-      "status": "OK",
-      "targets": ["src/weather/weather.ts", "src/weather/__tests__/weather.test.ts"]
-    },
-    {
-      "id": "AC3.1.3",
-      "description": "상세 구름 곡선 없음 안내 — outOfHorizon 상태 제공",
-      "status": "OK",
-      "targets": ["src/weather/weather.ts", "src/weather/__tests__/weather.test.ts"]
-    },
-    {
-      "id": "AC4.1.1",
-      "description": "날씨 실패 시 부분 표시 — unknown 상태 제공",
-      "status": "OK",
-      "targets": ["src/weather/client.ts", "src/weather/weather.ts", "src/weather/__tests__/client.test.ts"]
-    },
-    {
-      "id": "AC4.1.2",
-      "description": "짧은 캐시로 재호출 억제 — TTL 캐시",
-      "status": "OK",
-      "targets": ["src/weather/cache.ts", "src/weather/__tests__/cache.test.ts"]
-    },
-    {
-      "id": "BR1.1",
-      "description": "14일 초과 → 호출 없이 outOfHorizon",
-      "status": "OK",
-      "targets": ["src/weather/weather.ts", "src/weather/types.ts", "src/weather/__tests__/weather.test.ts"]
-    },
-    {
-      "id": "BR1.3",
-      "description": "불변식: FORECAST_HORIZON_DAYS ≤ 실제 API 예보 범위",
-      "status": "OK",
-      "targets": ["src/weather/types.ts"]
-    },
-    {
-      "id": "BR1.2",
-      "description": "14일 이내 → 호출해 known",
-      "status": "OK",
-      "targets": ["src/weather/weather.ts", "src/weather/client.ts", "src/weather/__tests__/weather.test.ts"]
-    },
-    {
-      "id": "BR2.1",
-      "description": "14일 이내 실패/결측 → unknown",
-      "status": "OK",
-      "targets": ["src/weather/client.ts", "src/weather/weather.ts", "src/weather/__tests__/client.test.ts"]
-    },
-    {
-      "id": "BR2.2",
-      "description": "어댑터가 3-상태 정규화, 외부 응답 비노출",
-      "status": "OK",
-      "targets": ["src/weather/client.ts", "src/weather/types.ts", "src/weather/index.ts", "src/weather/__tests__/types.test.ts"]
-    },
-    {
-      "id": "BR3.1",
-      "description": "TTL 캐시(known/outOfHorizon 길게, unknown 짧게)",
-      "status": "OK",
-      "targets": ["src/weather/cache.ts", "src/weather/__tests__/cache.test.ts"]
-    },
-    {
-      "id": "BR3.2",
-      "description": "자동 재시도 없음, 사용자 재진입이 트리거",
-      "status": "OK",
-      "targets": ["src/weather/weather.ts", "src/weather/__tests__/weather.test.ts"]
-    },
-    {
-      "id": "BR4.1",
-      "description": "타임아웃·키 불필요 공개 API 우선",
-      "status": "OK",
-      "targets": ["src/weather/client.ts", "src/weather/__tests__/client.test.ts"]
-    },
-    {
-      "id": "NFR6.1",
-      "description": "비밀값·키 하드코딩 금지(키 불필요 공개 API)",
-      "status": "OK",
-      "targets": ["src/weather/client.ts"]
-    },
-    {
-      "id": "NFR6.2",
-      "description": "경계 입력 검증(fail-fast 게이트)",
-      "status": "OK",
-      "targets": ["src/weather/validation.ts", "src/weather/__tests__/validation.test.ts"]
-    },
-    {
-      "id": "NFR6.3",
-      "description": "외부 응답 비신뢰 경계 파싱·정규화",
-      "status": "OK",
-      "targets": ["src/weather/client.ts", "src/weather/__tests__/client.test.ts"]
-    },
-    {
-      "id": "NFR5.1",
-      "description": "무료 한도 보호(캐시·컷오프·단일 호출)",
-      "status": "OK",
-      "targets": ["src/weather/cache.ts", "src/weather/weather.ts"]
-    }
+  "unit": "u2-weather-data",
+  "upstream_ids": [
+    "AC1.3.2", "AC1.3.3", "AC3.1.3", "AC4.1.1", "AC4.1.2",
+    "BR1.1", "BR1.2", "BR1.3", "BR2.1", "BR2.2", "BR3.1", "BR3.2", "BR4.1",
+    "NFR4.1", "NFR5.1", "NFR6.1", "NFR6.2", "NFR6.3"
+  ],
+  "coverage": [
+    { "id": "AC1.3.2", "status": "OK", "target": "src/weather/weather.ts" },
+    { "id": "AC1.3.3", "status": "OK", "target": "src/weather/weather.ts" },
+    { "id": "AC3.1.3", "status": "OK", "target": "src/weather/weather.ts" },
+    { "id": "AC4.1.1", "status": "OK", "target": "src/weather/client.ts" },
+    { "id": "AC4.1.2", "status": "OK", "target": "src/weather/cache.ts" },
+    { "id": "BR1.1", "status": "OK", "target": "src/weather/weather.ts" },
+    { "id": "BR1.2", "status": "OK", "target": "src/weather/weather.ts" },
+    { "id": "BR1.3", "status": "OK", "target": "src/weather/types.ts" },
+    { "id": "BR2.1", "status": "OK", "target": "src/weather/client.ts" },
+    { "id": "BR2.2", "status": "OK", "target": "src/weather/client.ts" },
+    { "id": "BR3.1", "status": "OK", "target": "src/weather/cache.ts" },
+    { "id": "BR3.2", "status": "OK", "target": "src/weather/weather.ts" },
+    { "id": "BR4.1", "status": "OK", "target": "src/weather/client.ts" },
+    { "id": "NFR4.1", "status": "OK", "target": "src/weather/weather.ts" },
+    { "id": "NFR5.1", "status": "OK", "target": "src/weather/cache.ts" },
+    { "id": "NFR6.1", "status": "OK", "target": "src/weather/client.ts" },
+    { "id": "NFR6.2", "status": "OK", "target": "src/weather/validation.ts" },
+    { "id": "NFR6.3", "status": "OK", "target": "src/weather/client.ts" }
   ],
   "reverse": []
 }

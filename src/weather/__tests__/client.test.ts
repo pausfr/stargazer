@@ -25,15 +25,28 @@ const validPayload = {
 };
 
 describe('WeatherClient.fetchCloudForecast (네트워크 미호출)', () => {
-  it('성공 + 구름량 존재 → known, hourly 채움', async () => {
+  it('성공 + 구름량 존재 → known, hourly 채움(오프셋 없는 응답에 KST +09:00을 명시)', async () => {
     const client = new WeatherClient({ fetchImpl: okFetch(validPayload) });
     const result = await client.fetchCloudForecast(query);
     expect(result.status).toBe('known');
+    // Open-Meteo는 timezone=Asia/Seoul로 요청해도 오프셋 없는 벽시계 문자열을
+    // 돌려준다("2026-11-17T18:00"). 이를 그대로 Date.parse하면 UTC로 오해석되어
+    // 9시간이 밀리는 결함이 있었다 — +09:00을 명시해 KST로 고정한다.
     expect(result.hourlyCloudPct).toEqual([
-      { hourKst: '2026-11-17T18:00', cloudPct: 20 },
-      { hourKst: '2026-11-17T19:00', cloudPct: 35 },
+      { hourKst: '2026-11-17T18:00:00+09:00', cloudPct: 20 },
+      { hourKst: '2026-11-17T19:00:00+09:00', cloudPct: 35 },
     ]);
     expect(result.reason).toBeNull();
+  });
+
+  it('응답 시각에 이미 오프셋이 있으면 그대로 둔다(상위 호환)', async () => {
+    const client = new WeatherClient({
+      fetchImpl: okFetch({
+        hourly: { time: ['2026-11-17T18:00:00+09:00'], cloud_cover: [20] },
+      }),
+    });
+    const result = await client.fetchCloudForecast(query);
+    expect(result.hourlyCloudPct).toEqual([{ hourKst: '2026-11-17T18:00:00+09:00', cloudPct: 20 }]);
   });
 
   it('HTTP 오류(ok=false) → unknown', async () => {

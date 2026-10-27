@@ -1,0 +1,22 @@
+{
+  "version": 4,
+  "id": "59f2c080-d462-4dc1-a545-25d6cb3ea9ea",
+  "kind": "unit",
+  "unit": "u4-web-ui",
+  "fingerprint": "sha256:1bf37aaef2ae549fe46ad79503d27fe3ff0ac3d09e88d4aab88526953afa03ff",
+  "command_sha256": "560272672c75d9738a7f855ccb8a1c4a8f47007e059e52b8e78ada0b5160290b",
+  "command_label": "npx tsc --noEmit && npx vitest run --coverage",
+  "started_at": "2026-10-27T16:04:49.298Z",
+  "finished_at": "2026-10-27T16:04:56.962Z",
+  "exit_code": 0,
+  "signal": null,
+  "error": null,
+  "stdout_bytes": 14401,
+  "stderr_bytes": 0,
+  "stdout_sha256": "0fc25bd6b7d365ba047c7e7fe80c5b6c7310fb76966fb7388347469e862cbd46",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_tail": "0 |     100 |     100 |                   \n  holidays.ts      |     100 |      100 |     100 |     100 |                   \n  index.ts         |     100 |      100 |     100 |     100 |                   \n  recommend.ts     |   96.15 |    95.34 |     100 |   96.15 | 57-58,138         \n src/weather       |    94.7 |    84.61 |     100 |    94.7 |                   \n  cache.ts         |     100 |      100 |     100 |     100 |                   \n  client.ts        |   89.24 |    77.14 |     100 |   89.24 | ...17-118,121-122 \n  index.ts         |     100 |      100 |     100 |     100 |                   \n  validation.ts    |     100 |      100 |     100 |     100 |                   \n  weather.ts       |     100 |    69.23 |     100 |     100 | 88-90,95          \n src/web-ui        |   72.46 |     90.9 |   65.38 |   72.46 |                   \n  app.ts           |   46.66 |      100 |   28.57 |   46.66 | ...57,60-61,65-86 \n  assembler.ts     |     100 |       80 |     100 |     100 | 95                \n  chart.ts         |   81.18 |       96 |   78.94 |   81.18 | ...07-632,636-638 \n  cloudSummary.ts  |     100 |      100 |     100 |     100 |                   \n  detailView.ts    |   97.45 |    74.07 |     100 |   97.45 | 190,216-218       \n  index.ts         |       0 |        0 |       0 |       0 | 1                 \n  listView.ts      |    1.69 |      100 |       0 |    1.69 | 34-182            \n  ...dationView.ts |     100 |      100 |     100 |     100 |                   \n  state.ts         |     100 |      100 |     100 |     100 |                   \n  summaryView.ts   |     100 |      100 |     100 |     100 |                   \n-------------------|---------|----------|---------|---------|-------------------\n\n=============================== Coverage summary ===============================\nStatements   : 0.78% ( 1316/167145 )\nBranches     : 69.96% ( 361/516 )\nFunctions    : 42.03% ( 95/226 )\nLines        : 0.78% ( 1316/167145 )\n================================================================================\n",
+  "stderr_tail": "",
+  "evidence_unchanged": true,
+  "verified": true
+}

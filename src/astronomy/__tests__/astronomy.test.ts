@@ -44,11 +44,14 @@ describe('computeAstronomy — 달 조도 (BR1.1)', () => {
     expect(r.moonIlluminationPct).toBeLessThan(60);
   });
 
-  it('조도는 라이브러리 출력(범위 시작 시점)과 소수 1자리 반올림으로 일치한다', () => {
+  it('조도는 라이브러리 출력(범위 시작 시점=그날 일몰)과 소수 1자리 반올림으로 일치한다', () => {
     const dateKstId = '2026-11-17';
     const r = computeAstronomy(baseInput(dateKstId));
-    // 기본 범위 시작 = KST 18:00 = UTC 09:00.
-    const startUtc = new Date('2026-11-17T09:00:00Z');
+    // 범위 시작 = 그날 실제 일몰(태양 고도 0도 하강 교차, 고정 18:00 아님).
+    const obs = new Observer(SEOUL.lat, SEOUL.lon, 0);
+    const noonUtc = new Date('2026-11-17T03:00:00Z'); // KST 정오
+    const sunset = SearchAltitude(Body.Sun, obs, -1, noonUtc, 1.5, 0);
+    const startUtc = (sunset as { date: Date }).date;
     const expected = Math.round(Illumination(Body.Moon, startUtc).phase_fraction * 1000) / 10;
     expect(r.moonIlluminationPct).toBeCloseTo(expected, 1);
   });
@@ -170,15 +173,18 @@ describe('computeAstronomy — 월출/월몰 "그날 밤" 범위 (BR3.1, BR3.2)'
     expect(r.moonset).toBeNull();
   });
 
-  it('월출/월몰은 서로 독립적으로 null일 수 있다', () => {
-    // 월출만 범위에 걸리고 월몰은 범위 밖인 날을 라이브러리로 확인해 검증.
+  it('월출/월몰은 서로 독립적으로 null일 수 있다(월몰은 월출 이후에서 탐색)', () => {
+    // 결함 6 수정 반영: 월몰은 range.startUtc가 아니라 월출(있으면) 이후부터
+    // 탐색한다. 라이브러리로 동일한 탐색 순서를 재현해 교차 확인한다.
     const obs = new Observer(SEOUL.lat, SEOUL.lon, 0);
     const startUtc = new Date('2026-11-11T09:00:00Z');
-    const rise = SearchRiseSet(Body.Moon, obs, +1, startUtc, 1.5);
-    const set = SearchRiseSet(Body.Moon, obs, -1, startUtc, 1.5);
     const endUtc = startUtc.getTime() + 12 * 3600000; // 18:00 ~ 익일 06:00
+    const rise = SearchRiseSet(Body.Moon, obs, +1, startUtc, 1.5);
     const riseIn =
       rise && rise.date.getTime() >= startUtc.getTime() && rise.date.getTime() <= endUtc;
+    // 월몰 탐색 기준: 월출이 있으면 그 이후, 없으면 범위 시작.
+    const setSearchFrom = rise ? rise.date : startUtc;
+    const set = SearchRiseSet(Body.Moon, obs, -1, setSearchFrom, 1.5);
     const setIn = set && set.date.getTime() >= startUtc.getTime() && set.date.getTime() <= endUtc;
 
     const r = computeAstronomy(baseInput('2026-11-11'));
@@ -259,16 +265,33 @@ describe('computeAstronomy — 입력 검증 (BR5.1, SD1)', () => {
   });
 });
 
-describe('computeAstronomy — 기본 밤 범위 (BR3.2)', () => {
-  it('night 입력이 없으면 기본 범위(18:00~익일 06:00)로 계산하며 결과를 반환한다', () => {
+describe('computeAstronomy — 기본 밤 범위 (BR3.2, 일몰~일출 기준)', () => {
+  it('night 입력이 없으면 그날 실제 일몰~다음 일출 범위로 계산하며 결과를 반환한다', () => {
     const r = computeAstronomy(baseInput('2026-11-17'));
     expect(r).toBeDefined();
     expect(r.dateKstId).toBe('2026-11-17');
-    // 라이브러리로 SearchAltitude(-6, dusk) 교차 확인: 기본 범위 안에 저녁 박명이 있다.
+    // 라이브러리로 SearchAltitude(-6, dusk) 교차 확인: 일몰 전후로 저녁 박명이 있다.
     const obs = new Observer(SEOUL.lat, SEOUL.lon, 0);
-    const startUtc = new Date('2026-11-17T09:00:00Z');
-    const dusk = SearchAltitude(Body.Sun, obs, -1, startUtc, 1.5, -6);
+    const noonUtc = new Date('2026-11-17T03:00:00Z'); // KST 정오부터 탐색
+    const dusk = SearchAltitude(Body.Sun, obs, -1, noonUtc, 1.5, -6);
     expect(dusk).not.toBeNull();
     expect(r.civilTwilight.start).toMatch(KST_ISO_RE);
+  });
+
+  it('달이 밤 범위 안에서 남중을 지나지 않아도(늦게 뜨는 달) 밤 전체(일몰~일출)를 담는다', () => {
+    // 종전 결함 재현 사례: 고정 18:00~06:00이면 늦게 뜨는 달의 남중이
+    // 범위 밖으로 밀려 단조 증가 곡선이 됐다. 이제는 일몰~일출 전체를
+    // 담으므로 moonHourly 시간 범위가 12시간보다 넓을 수 있다(계절별).
+    const r = computeAstronomy(baseInput('2026-11-17'));
+    const first = r.moonHourly[0];
+    const last = r.moonHourly[r.moonHourly.length - 1];
+    expect(first).toBeDefined();
+    expect(last).toBeDefined();
+    // 밤 범위 시작/끝이 civilTwilight 시작보다 이르거나 같다(일몰이 civil 박명 시작보다 이름).
+    if (r.civilTwilight.start !== null) {
+      expect(new Date(first.hourKst).getTime()).toBeLessThanOrEqual(
+        new Date(r.civilTwilight.start).getTime(),
+      );
+    }
   });
 });

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- 모바일 세로 우선(NFR2). -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark light" />
+    <title>별 관측 플래너</title>
+    <style>
+      /* 다크모드 기본 테마(NFR1). 색만으로 정보를 전달하지 않으며,
+         추천 강조는 노란 테두리 + 별 아이콘 + "추천" 라벨을 병행한다. */
+      :root {
+        --bg: #0b1020;
+        --surface: #161c2e;
+        --surface-2: #1f2740;
+        --text: #e8ecf5;
+        --text-dim: #9aa6c0;
+        --border: #2a3350;
+        --accent: #ffd54a; /* 추천 강조(노란색) */
+        --accent-text: #1a1400;
+        --danger: #ff7b72;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family:
+          system-ui,
+          -apple-system,
+          'Segoe UI',
+          'Apple SD Gothic Neo',
+          'Malgun Gothic',
+          sans-serif;
+        -webkit-text-size-adjust: 100%;
+      }
+      #app {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

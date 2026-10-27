@@ -29,7 +29,7 @@ components:
     covers: [NFR1, NFR2, NFR3.1, NFR3.2]
 
   - name: NightDetailView
-    responsibility: "WF2 상세 그래프 렌더. 단일 Chart.js 인스턴스(data 갱신, PD4) 이중축(달 밝기 수평 기준선/구름량 곡선)·박명 3구간+완전한 밤 annotation 음영(null 경계 미표시)·핵심 숫자 요약(완전한 밤·월출몰)·범례. WF3 재시도(error 상태). 텍스트 바인딩 전용 렌더(SD2)."
+    responsibility: "WF2 상세 그래프 렌더. 단일 Chart.js 인스턴스(data 갱신, PD4) 이중축(좌y축 달 체감 밝기 시간별 꺾은선 moonHourly/우y축 구름량 곡선)·박명 3구간+완전한 밤 annotation 음영(null 경계 미표시)·핵심 숫자 요약(완전한 밤·월출몰)·범례. WF3 재시도(error 상태). 텍스트 바인딩 전용 렌더(SD2)."
     inputs: [dateKstId, assembler]
     outputs: [상세 그래프 UI]
     depends_on: [NightViewAssembler, Chart.js + chartjs-plugin-annotation]

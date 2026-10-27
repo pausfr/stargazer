@@ -44,7 +44,12 @@ UI가 호출할 때의 실제 시그니처·입력을 못박는다(src/astronomy
   `options`로 **공유 캐시**(`cache`)와 기준 시각(`nowMs`)을 주입한다 — §5.1 캐시 참조. 예외를 던지지 않고 `status`로 성공/먼 날짜/실패를 구분한다.
 - **U3**: `listCandidateDates(range): CalendarDate[]`(동기), `recommend(astro, cloud): Recommendation`(동기), 정렬은 `verdictSortKey`. UI는 `Recommendation.verdict`만 읽는다.
 
-**달 밝기의 시간축 표현(중요)**: `AstronomyResult.moonIlluminationPct`는 그날 밤 **단일 스칼라**(시간별 달 밝기 배열이 C1에 없음). 반면 구름량(`hourlyCloudPct`)만 실제 시간별 배열이다. 따라서 상세 그래프의 좌y축 달 밝기는 **시간에 따라 변하는 곡선이 아니라, 그날 밤 전 구간 일정한 수평 기준선("그날 밤 대표 조도")**으로 그린다(§4 WF2). 범례·축 설명에 이 의미를 명시한다. 시간별 달 밝기 곡선은 이 MVP 계약 범위 밖이며, 필요해지면 C1에 시간별 조도를 추가하는 상위 계약 변경으로 다룬다(지금은 범위 밖).
+**달 밝기의 시간축 표현 (갱신 2026-10-27 — 수평 기준선 결정 번복):** 종전 설계는 `moonIlluminationPct`가 하룻밤 단일 스칼라라는 이유로 좌y축 달 밝기를 **수평 기준선**으로 그렸다. 그러나 관측자가 체감하는 달 밝기는 밤새 크게 변한다 — 위상(illuminated fraction)은 하룻밤에 거의 안 변하지만, **지면에 닿는 달빛은 달 고도에 따른 대기 소광(airmass)과 입사각으로 월출 직후·월몰 직전에는 남중 대비 수 % 수준까지 떨어진다**. 이 앱의 핵심 가치("좋은 관측 밤 고르기")에는 바로 이 시간별 체감 밝기가 중요하므로, 좌y축을 **시간별 꺾은선**(월출 ~0 → 남중 피크 → 월몰 ~0)으로 그린다.
+  - **C1 계약 확장(이번 변경)**: `AstronomyResult`에 시간별 배열 `moonHourly: { hourKst: string; altitudeDeg: number; relativeBrightnessPct: number }[]`를 추가한다. U1이 그날 밤 범위를 균등 샘플링(예: 30분 간격)해 각 시각의 달 고도를 계산하고, **상대 체감 밝기(남중=100% 기준)** = 대기투과율(airmass 기반 소광) × 입사각(sin 고도) × 위상 스케일(illuminated fraction)로 산출한다. 소광계수는 상수로 분리(맑은 날 가정, 주석에 근거). 달이 지평 아래(고도 ≤ 0)인 시각은 0.
+    - **transit(100%) 기준 정의(결정성)**: 기준은 그 밤 달의 **실제 천체 남중 고도**(샘플 범위 밖이어도 그날 밤의 이론 남중 고도)로 고정한다. 범위 내 남중 유무와 무관하게 상대 밝기가 결정적이 되도록 하며, U1 주석에 근거를 남긴다(월출만/월몰만 있는 밤도 스케일이 흔들리지 않음).
+    - **좌y축 의미 명시**: 곡선의 좌y축은 "남중 대비 상대 체감 밝기(%)"이며, 요약의 `moonIlluminationPct`(위상 조도 %)와는 다른 의미의 백분율이다. 축·범례 텍스트로 구분해 혼동을 막는다.
+  - 기존 `moonIlluminationPct`(단일 위상값)는 **유지**한다: 카드 요약·추천 입력용 위상 지표로 계속 쓰이며, 상세 요약에도 "달 밝기(위상)"로 표기. 곡선은 `moonHourly`로 그린다.
+  - 구름량(`hourlyCloudPct`)은 종전대로 `status=known`일 때만 우y축 시계열로 그린다.
 
 ## 3. 화면 WF1 — 메인 목록 (HolidayListView)
 
@@ -79,19 +84,24 @@ WF2 상세 그래프 렌더링(입력: dateKstId):
       cloud = await getCloudForecast({ dateKstId, lat, lon }, { nowMs, cache })       # 공유 캐시 주입
  3. astro 실패 시 → 에러 메시지 + "다시 시도" 버튼(WF3)                    [AC4.2.1]
  4. 이중축 그래프 렌더(Chart.js):                                         [AC3.1.1]
-    - x축: 그날 밤 KST 시간(calendar.nightStartKst ~ nightEndKst) — astro 입력과 동일 범위
-    - 좌y축(0~100): 달 밝기 = astro.moonIlluminationPct 단일값을 밤 전 구간 수평 기준선으로 표시
-      (시간별 곡선 아님 — §2.1. 범례/축 설명에 "그날 밤 대표 조도"임을 명시)
+    - x축: 그날 밤 KST 시간(calendar.nightStartKst ~ nightEndKst) — astro 입력과 동일 범위.
+      내부 계산은 epoch ms(linear 스케일)이되, 축 눈금은 **KST HH:MM로 포맷**해 표시한다
+      (ticks.callback로 ms→"19:00"·"23:00" 변환; 계산용 epoch와 표시용 시각 분리). epoch 원본값 노출 금지.
+    - 좌y축(0~100): 달 체감 밝기 = astro.moonHourly[].relativeBrightnessPct **시간별 꺾은선**
+      (월출 ~0 → 남중 피크 → 월몰 ~0, §2.1 갱신). 수평 기준선 아님. 위상값 moonIlluminationPct는 요약에 별도 표기.
     - 우y축(0~100): 구름량 곡선(cloud.hourlyCloudPct) — status=known일 때만(실제 시계열)
- 5. 배경 음영(annotation box):                                           [AC3.1.2]
-    - 시민/항해/천문 박명 3구간(astro.civil/nautical/astronomicalTwilight) 각각 반투명 음영
-    - 완전한 밤(fullDarkStart~fullDarkEnd) 별도 음영/구분
+ 5. 배경 음영(annotation box) — 어두워지는 순서대로 **농도 차등**:          [AC3.1.2]
+    - 시민박명보다 바깥(황혼 전)은 음영 없음(가장 밝음) → 시민박명 옅은 음영 → 항해박명 중간 음영 →
+      천문박명 진한 음영 → 완전한 밤 가장 진한 음영. 겹치는 구간은 안쪽(더 어두운) 음영이 이기도록 레이어링.
+    - 각 음영 box 안에 **라벨 텍스트**("시민"/"항해"/"천문"/"완전한 밤")를 넣어 가시성을 확보한다
+      (종전 display:false로 라벨이 안 보이던 문제 보완; 대비·겹침 고려해 box 내부 배치).
     - null 처리: 각 박명의 start 또는 end가 null이면(해당 경계 미성립, 예: 서울 하지 무렵
       천문박명) 그 음영 box를 그리지 않는다. fullDarkStart 또는 fullDarkEnd가 null이면
       완전한 밤 음영 box도 그리지 않는다(요약에서는 "없음" 표기).
  6. cloud.status != known이면 구름 곡선 생략 + "날씨는 날짜가 가까워지면" 안내 [AC3.1.3]
- 7. 핵심 숫자 요약: 완전한 밤 시작·끝, 월출·월몰(null이면 "없음")            [AC3.2.1, AC3.2.3]
- 8. 범례: 달 밝기 기준선/구름량선/박명 음영/완전한 밤 의미 설명             [AC3.2.2]
+ 7. 핵심 숫자 요약: 달 위상(moonIlluminationPct), 완전한 밤 시작·끝, 월출·월몰(null이면 "없음";
+    라벨과 값 중복 금지 — 값은 "없음"만, 라벨이 "월출"/"월몰"/"완전한 밤"을 제공)            [AC3.2.1, AC3.2.3]
+ 8. 범례: 달 체감 밝기 곡선/구름량선/박명 음영(농도 구분)/완전한 밤 의미 설명  [AC3.2.2]
  9. 뒤로가기 → 메인 목록 이전 위치 복귀. 이전/다음 연휴 바로가기 버튼 없음.   [AC3.3.1, AC3.3.2]
 ```
 

@@ -27,6 +27,7 @@ function astroWith(overrides: Partial<AstronomyResult> = {}): AstronomyResult {
   return {
     dateKstId: '2026-11-17',
     moonIlluminationPct: 10,
+    moonHourly: [],
     civilTwilight: { start: null, end: null },
     nauticalTwilight: { start: null, end: null },
     astronomicalTwilight: { start: null, end: null },
@@ -34,6 +35,8 @@ function astroWith(overrides: Partial<AstronomyResult> = {}): AstronomyResult {
     fullDarkEnd: '2026-11-18T05:00:00+09:00',
     moonrise: null,
     moonset: null,
+    nightStart: '2026-11-17T17:30:00+09:00',
+    nightEnd: '2026-11-18T07:00:00+09:00',
     ...overrides,
   };
 }

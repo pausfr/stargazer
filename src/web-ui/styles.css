@@ -1,0 +1,340 @@
+/*
+ * u4-web-ui 전용 스타일시트 (frontend-components §5.5, 반려 보완).
+ *
+ * 각 뷰(listView.ts·detailView.ts)가 실제로 부여하는 className에 1:1로
+ * 스타일 규칙을 작성한다. index.html의 CSS 변수(--bg·--surface·--surface-2·
+ * --text·--text-dim·--border·--accent·--accent-text·--danger)를 사용한다.
+ *
+ * 다크모드·모바일 세로 우선(NFR2). 추천 강조는 색만으로 전달하지 않고
+ * 노란 테두리(색) + 별 아이콘(형태) + "추천" 라벨(텍스트)을 병행한다(NFR1).
+ * 스타일은 class 토글로만 적용하며, 사용자 노출 문자열은 뷰에서 계속
+ * textContent로 바인딩한다(innerHTML 금지, NFR6.2) — 이 파일은 그 규칙을
+ * 약화시키지 않는다.
+ */
+
+/* ── 목록(WF1) ─────────────────────────────────────────────── */
+
+.night-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* 카드: surface 배경·테두리·라운드·패딩·탭 가능 (모바일 세로 스택). */
+.night-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  cursor: pointer;
+  min-height: 44px; /* 탭 타깃 */
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease;
+}
+
+.night-card:hover {
+  background: var(--surface-2);
+}
+
+.night-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 추천 강조: 노란 2px 테두리(색) — 아이콘·라벨은 recommend-badge가 담당. */
+.night-card.recommended {
+  border: 2px solid var(--accent);
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* "추천" 배지: 별 아이콘(형태) + 텍스트 라벨 — 색 비의존 보강. */
+.recommend-badge {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* 달 조도·구름 요약: 보조 텍스트. */
+.card-moon {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.card-cloud {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+
+/* 축약 에러(목록 카드): 색 외 텍스트로도 구분. */
+.card-error {
+  font-size: 0.85rem;
+  color: var(--danger);
+}
+
+.card-error::before {
+  content: '⚠ ';
+}
+
+/* 로딩 스켈레톤 카드: shimmer(모션 선호 시 비활성). */
+.night-card.skeleton {
+  cursor: default;
+  min-height: 96px;
+  border: 1px solid var(--border);
+  background: linear-gradient(
+    100deg,
+    var(--surface) 30%,
+    var(--surface-2) 50%,
+    var(--surface) 70%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .night-card.skeleton {
+    animation: none;
+    background: var(--surface-2);
+  }
+}
+
+/* 빈 목록 안내. */
+.empty-state {
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.95rem;
+}
+
+/* ── 상세(WF2·WF3) ─────────────────────────────────────────── */
+
+.detail-loading {
+  padding: 48px 16px;
+  text-align: center;
+  color: var(--text-dim);
+}
+
+.detail-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detail-title {
+  margin: 8px 0 0;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* 상태 안내(중립 톤): partial(구름 알 수 없음)·먼 날짜. */
+.cloud-notice {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+  font-size: 0.88rem;
+}
+
+.cloud-notice::before {
+  content: 'ℹ ';
+}
+
+/*
+ * 차트 영역: Chart.js canvas는 부모 높이에 의존한다(maintainAspectRatio:
+ * false). 부모에 명시 높이가 없으면 캔버스가 0 높이로 접혀 안 보였던 것이
+ * 이전 반려의 차트 미표시 원인 — 고정 높이·100% 폭을 명시한다.
+ */
+.chart-wrap {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  /* 은하수 배경 이미지를 깔고, cover로 영역을 채운다(Vite가 url() 번들 처리). */
+  background:
+    var(--surface) url('../assets/milkyway_bg.png') center / cover no-repeat;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 8px;
+  overflow: hidden;
+  /* 가로 pan(드래그) 중 커서 표시. 세로 제스처는 페이지 스크롤에 양보. */
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.chart-wrap:active {
+  cursor: grabbing;
+}
+
+/* 배경 이미지 위에 어두운 오버레이를 깔아 그래프 데이터 가독성을 지킨다. */
+.chart-wrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 16, 32, 0.55);
+  pointer-events: none;
+}
+
+/* 캔버스는 배경·오버레이 위에 올린다. */
+.chart-wrap canvas {
+  position: relative;
+  z-index: 1;
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+/* 핵심 숫자 요약(라벨-값). "없음"도 동일 스타일(생략 아님, AC3.2.3). */
+.night-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--surface);
+}
+
+.summary-label {
+  color: var(--text-dim);
+  font-size: 0.9rem;
+}
+
+.summary-value {
+  color: var(--text);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 범례(선·음영 의미). */
+.chart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px 16px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.legend-item {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+}
+
+/* ── 에러·버튼(WF3) ────────────────────────────────────────── */
+
+.detail-error {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 16px;
+  border-radius: 12px;
+  background: var(--surface);
+  border: 1px solid var(--danger);
+}
+
+/* 색 외 아이콘·텍스트로도 에러임을 구분(색 비의존). */
+.error-message {
+  margin: 0;
+  color: var(--danger);
+  font-size: 0.95rem;
+}
+
+.error-message::before {
+  content: '⚠ ';
+}
+
+/* 버튼 공통: 명확한 형태·탭 타깃 >= 44px·focus-visible. */
+.back-button,
+.retry-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.back-button {
+  margin-bottom: 12px;
+}
+
+.retry-button {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+}
+
+.back-button:hover,
+.retry-button:hover {
+  filter: brightness(1.08);
+}
+
+.back-button:focus-visible,
+.retry-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ── 반응형: 모바일 세로 1열 기본, 데스크톱 비파괴(#app max-width 안). ── */
+
+@media (min-width: 600px) {
+  .night-list {
+    gap: 14px;
+  }
+
+  .card-moon {
+    font-size: 1rem;
+  }
+}

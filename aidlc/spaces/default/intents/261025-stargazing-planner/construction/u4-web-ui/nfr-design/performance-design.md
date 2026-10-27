@@ -23,9 +23,9 @@
 - **근거**: NFR3.4, NFR4, functional-spec §5.1. 저장·TTL 정책 자체는 U2(DataCache) 소유.
 
 ### PD4. 상세 차트 단일 인스턴스 (NFR3.5)
-- **패턴**: NightDetailView는 Chart.js 인스턴스를 날짜마다 destroy/재생성하지 않고 **하나를 유지하며 data만 갱신**한다. 한 날짜 데이터량이 작으므로(밤 범위 시간별 약 12~15 포인트) 가상화·다운샘플링을 두지 않는다.
+- **패턴**: NightDetailView는 Chart.js 인스턴스를 날짜마다 destroy/재생성하지 않고 **하나를 유지하며 data만 갱신**한다. 상세 그래프는 좌y축 달 체감 밝기 시간별 꺾은선(moonHourly, 밤 범위 약 30분 간격 ≈ 20~30 포인트)과 우y축 구름량 시계열(시간별 약 12~15 포인트)의 두 시계열을 그리지만, 총 데이터량이 여전히 작으므로 가상화·다운샘플링을 두지 않는다.
 - 박명 음영(annotation box)·월출몰 요약은 data 갱신과 함께 재계산해 반영한다.
-- **근거**: NFR3.5, Q2, functional-spec §4.
+- **근거**: NFR3.5, Q2, functional-spec §2.1·§4.
 
 ## 성능 예산·측정
 

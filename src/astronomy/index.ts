@@ -10,5 +10,6 @@ export {
   AstronomyComputationError,
   type AstronomyInput,
   type AstronomyResult,
+  type MoonHourlySample,
   type TwilightWindow,
 } from './types.js';
