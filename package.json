@@ -15,8 +15,7 @@
   "dependencies": {
     "astronomy-engine": "2.1.19",
     "chart.js": "4.4.7",
-    "chartjs-plugin-annotation": "3.1.0",
-    "chartjs-plugin-zoom": "2.2.0"
+    "chartjs-plugin-annotation": "3.1.0"
   },
   "devDependencies": {
     "@vitest/coverage-v8": "2.1.9",

@@ -35,11 +35,9 @@ import {
   type ChartConfiguration,
 } from 'chart.js';
 import annotationPlugin from 'chartjs-plugin-annotation';
-import zoomPlugin from 'chartjs-plugin-zoom';
 import type { AstronomyResult, CloudForecast } from './types.js';
 
 // x축은 숫자(epoch ms)를 쓰는 linear 스케일이라 time 어댑터가 필요 없다.
-// zoomPlugin: x축 pan(끌기)으로 y축·틀은 고정한 채 플롯 안쪽만 가로 스크롤.
 Chart.register(
   LineController,
   LineElement,
@@ -49,7 +47,6 @@ Chart.register(
   Tooltip,
   Filler,
   annotationPlugin,
-  zoomPlugin,
 );
 
 /**
@@ -577,12 +574,6 @@ export function buildChartConfig(
       plugins: {
         legend: { labels: { color: COLORS.text } },
         annotation: { annotations },
-        // x축 pan: 플롯 안쪽만 가로로 끌어 넘긴다(y축·틀 고정). 마우스 드래그·
-        // 터치 모두 지원. 끌 수 있는 범위는 밤 전체(일몰~일출)로 제한한다.
-        zoom: {
-          pan: { enabled: true, mode: 'x' },
-          limits: { x: { min: nightStartMs, max: nightEndMs } },
-        },
       },
     },
   };

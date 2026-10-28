@@ -189,13 +189,6 @@
   border-radius: 12px;
   padding: 8px;
   overflow: hidden;
-  /* 가로 pan(드래그) 중 커서 표시. 세로 제스처는 페이지 스크롤에 양보. */
-  cursor: grab;
-  touch-action: pan-y;
-}
-
-.chart-wrap:active {
-  cursor: grabbing;
 }
 
 /* 배경 이미지 위에 어두운 오버레이를 깔아 그래프 데이터 가독성을 지킨다. */

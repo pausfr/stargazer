@@ -156,8 +156,7 @@ function renderDetail(root: HTMLElement, night: NightView, onBack: () => void): 
   }
 
   // 차트 캔버스(실제 그리기는 수동 스모크; 조립 시 NightChart.render).
-  // y축·틀은 고정하고 플롯 안쪽만 가로로 끌어 보는 pan은 chart.ts의
-  // zoomPlugin이 담당한다(CSS 스크롤 아님).
+  // 차트는 밤 전체(일몰~일출)를 고정 표시한다(드래그/스크롤 없음).
   const chartWrap = el('div', 'chart-wrap');
   const canvas = document.createElement('canvas');
   canvas.setAttribute('data-testid', 'night-chart');
@@ -169,21 +168,12 @@ function renderDetail(root: HTMLElement, night: NightView, onBack: () => void): 
     // 고정 18:00~06:00을 쓰면 바깥쪽 시민박명 밴드가 잘렸다(일몰~일출 확장).
     const nightStartMs = Date.parse(night.astro.nightStart);
     const nightEndMs = Date.parse(night.astro.nightEnd);
-    // 좁은 화면이면 초기 보기 창을 약 7시간으로 좁혀 가독성을 확보하고,
-    // 나머지는 pan(드래그)으로 넘겨 본다. 넓은 화면은 밤 전체를 한 번에.
-    const narrow =
-      typeof window !== 'undefined' && window.matchMedia('(max-width: 599px)').matches;
-    const WINDOW_MS = 7 * 60 * 60 * 1000;
-    const viewStartMs = narrow ? nightStartMs : undefined;
-    const viewEndMs = narrow ? Math.min(nightStartMs + WINDOW_MS, nightEndMs) : undefined;
     try {
       new NightChart(canvas as HTMLCanvasElement).render(
         night.astro,
         night.cloud,
         nightStartMs,
         nightEndMs,
-        viewStartMs,
-        viewEndMs,
       );
     } catch {
       // 렌더 환경(테스트 등)에서 canvas 컨텍스트가 없을 수 있다 — 표시 요약은 계속.
