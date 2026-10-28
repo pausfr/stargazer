@@ -1061,14 +1061,427 @@
     {
       "stage_slug": "ci-pipeline",
       "started_at": "2026-10-27T16:28:29Z",
-      "completed_at": null,
+      "completed_at": "2026-10-28T00:37:18Z",
       "agent": "aidlc-pipeline-deploy-agent",
       "memory_path": "aidlc/spaces/default/intents/261025-stargazing-planner/construction/ci-pipeline/memory.md",
-      "memory_entries": null,
-      "memory_breakdown": null,
-      "sensor_firings": [],
-      "outcome": "pending",
-      "learnings_captured": null
+      "memory_entries": 0,
+      "memory_breakdown": {
+        "interpretations": 0,
+        "deviations": 0,
+        "tradeoffs": 0,
+        "open_questions": 0
+      },
+      "sensor_firings": [
+        {
+          "id": "required-sections",
+          "fire_id": "33d9f8ca",
+          "result": "passed",
+          "ts": "2026-10-28T00:36:47Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "7479141b",
+          "result": "passed",
+          "ts": "2026-10-28T00:36:47Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "a88feb5c",
+          "result": "passed",
+          "ts": "2026-10-28T00:36:48Z"
+        },
+        {
+          "id": "upstream-coverage",
+          "fire_id": "b4d13bcc",
+          "result": "failed",
+          "ts": "2026-10-28T00:36:48Z",
+          "detail_path": "aidlc/spaces/default/intents/261025-stargazing-planner/.aidlc-engine/sensors/ci-pipeline/upstream-coverage-b4d13bcc.md"
+        }
+      ],
+      "outcome": "approved",
+      "learnings_captured": {
+        "from_orchestrator": 0,
+        "from_user_addition": 0
+      }
+    },
+    {
+      "stage_slug": "deployment-pipeline",
+      "started_at": "2026-10-28T00:37:18Z",
+      "completed_at": "2026-10-28T00:54:45Z",
+      "agent": "aidlc-pipeline-deploy-agent",
+      "memory_path": "aidlc/spaces/default/intents/261025-stargazing-planner/operation/deployment-pipeline/memory.md",
+      "memory_entries": 0,
+      "memory_breakdown": {
+        "interpretations": 0,
+        "deviations": 0,
+        "tradeoffs": 0,
+        "open_questions": 0
+      },
+      "sensor_firings": [
+        {
+          "id": "required-sections",
+          "fire_id": "68856e1c",
+          "result": "passed",
+          "ts": "2026-10-28T00:42:42Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "a160e003",
+          "result": "passed",
+          "ts": "2026-10-28T00:42:42Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "782faba4",
+          "result": "passed",
+          "ts": "2026-10-28T00:42:42Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "1fe4a11f",
+          "result": "passed",
+          "ts": "2026-10-28T00:42:42Z"
+        },
+        {
+          "id": "upstream-coverage",
+          "fire_id": "49fc0867",
+          "result": "passed",
+          "ts": "2026-10-28T00:42:42Z"
+        }
+      ],
+      "outcome": "approved",
+      "learnings_captured": {
+        "from_orchestrator": 0,
+        "from_user_addition": 0
+      }
+    },
+    {
+      "stage_slug": "environment-provisioning",
+      "started_at": "2026-10-28T00:54:45Z",
+      "completed_at": "2026-10-28T01:08:30Z",
+      "agent": "aidlc-aws-platform-agent",
+      "memory_path": "aidlc/spaces/default/intents/261025-stargazing-planner/operation/environment-provisioning/memory.md",
+      "memory_entries": 0,
+      "memory_breakdown": {
+        "interpretations": 0,
+        "deviations": 0,
+        "tradeoffs": 0,
+        "open_questions": 0
+      },
+      "sensor_firings": [
+        {
+          "id": "required-sections",
+          "fire_id": "b67eb91b",
+          "result": "passed",
+          "ts": "2026-10-28T01:01:36Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "0465fcc5",
+          "result": "passed",
+          "ts": "2026-10-28T01:01:37Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "a1198f07",
+          "result": "passed",
+          "ts": "2026-10-28T01:01:37Z"
+        },
+        {
+          "id": "upstream-coverage",
+          "fire_id": "c907d68e",
+          "result": "passed",
+          "ts": "2026-10-28T01:01:37Z"
+        }
+      ],
+      "outcome": "approved",
+      "learnings_captured": {
+        "from_orchestrator": 0,
+        "from_user_addition": 0
+      }
+    },
+    {
+      "stage_slug": "deployment-execution",
+      "started_at": "2026-10-28T01:08:30Z",
+      "completed_at": "2026-10-28T01:32:38Z",
+      "agent": "aidlc-pipeline-deploy-agent",
+      "memory_path": "aidlc/spaces/default/intents/261025-stargazing-planner/operation/deployment-execution/memory.md",
+      "memory_entries": 0,
+      "memory_breakdown": {
+        "interpretations": 0,
+        "deviations": 0,
+        "tradeoffs": 0,
+        "open_questions": 0
+      },
+      "sensor_firings": [
+        {
+          "id": "required-sections",
+          "fire_id": "cedb3b0c",
+          "result": "passed",
+          "ts": "2026-10-28T01:30:15Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "5c663c45",
+          "result": "passed",
+          "ts": "2026-10-28T01:30:15Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "b0ac6577",
+          "result": "passed",
+          "ts": "2026-10-28T01:30:15Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "f5f30ccf",
+          "result": "passed",
+          "ts": "2026-10-28T01:30:15Z"
+        },
+        {
+          "id": "upstream-coverage",
+          "fire_id": "ffc31b48",
+          "result": "passed",
+          "ts": "2026-10-28T01:30:16Z"
+        }
+      ],
+      "outcome": "approved",
+      "learnings_captured": {
+        "from_orchestrator": 0,
+        "from_user_addition": 0
+      }
+    },
+    {
+      "stage_slug": "observability-setup",
+      "started_at": "2026-10-28T01:32:38Z",
+      "completed_at": "2026-10-28T01:41:04Z",
+      "agent": "aidlc-operations-agent",
+      "memory_path": "aidlc/spaces/default/intents/261025-stargazing-planner/operation/observability-setup/memory.md",
+      "memory_entries": 0,
+      "memory_breakdown": {
+        "interpretations": 0,
+        "deviations": 0,
+        "tradeoffs": 0,
+        "open_questions": 0
+      },
+      "sensor_firings": [
+        {
+          "id": "required-sections",
+          "fire_id": "95da85da",
+          "result": "passed",
+          "ts": "2026-10-28T01:40:27Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "e60e10da",
+          "result": "passed",
+          "ts": "2026-10-28T01:40:27Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "9969bbef",
+          "result": "passed",
+          "ts": "2026-10-28T01:40:27Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "179ecfa3",
+          "result": "passed",
+          "ts": "2026-10-28T01:40:27Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "acb9d2ab",
+          "result": "passed",
+          "ts": "2026-10-28T01:40:27Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "6d8a4085",
+          "result": "passed",
+          "ts": "2026-10-28T01:40:27Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "52c36198",
+          "result": "passed",
+          "ts": "2026-10-28T01:40:27Z"
+        },
+        {
+          "id": "upstream-coverage",
+          "fire_id": "ca5beccd",
+          "result": "failed",
+          "ts": "2026-10-28T01:40:28Z",
+          "detail_path": "aidlc/spaces/default/intents/261025-stargazing-planner/.aidlc-engine/sensors/observability-setup/upstream-coverage-ca5beccd.md"
+        }
+      ],
+      "outcome": "approved",
+      "learnings_captured": {
+        "from_orchestrator": 0,
+        "from_user_addition": 0
+      }
+    },
+    {
+      "stage_slug": "incident-response",
+      "started_at": "2026-10-28T01:41:04Z",
+      "completed_at": "2026-10-28T01:46:14Z",
+      "agent": "aidlc-operations-agent",
+      "memory_path": "aidlc/spaces/default/intents/261025-stargazing-planner/operation/incident-response/memory.md",
+      "memory_entries": 0,
+      "memory_breakdown": {
+        "interpretations": 0,
+        "deviations": 0,
+        "tradeoffs": 0,
+        "open_questions": 0
+      },
+      "sensor_firings": [
+        {
+          "id": "required-sections",
+          "fire_id": "3c238a98",
+          "result": "passed",
+          "ts": "2026-10-28T01:45:46Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "703f7464",
+          "result": "passed",
+          "ts": "2026-10-28T01:45:46Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "f0082333",
+          "result": "passed",
+          "ts": "2026-10-28T01:45:47Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "45abd3f6",
+          "result": "passed",
+          "ts": "2026-10-28T01:45:47Z"
+        },
+        {
+          "id": "upstream-coverage",
+          "fire_id": "e586d942",
+          "result": "failed",
+          "ts": "2026-10-28T01:45:47Z",
+          "detail_path": "aidlc/spaces/default/intents/261025-stargazing-planner/.aidlc-engine/sensors/incident-response/upstream-coverage-e586d942.md"
+        }
+      ],
+      "outcome": "approved",
+      "learnings_captured": {
+        "from_orchestrator": 0,
+        "from_user_addition": 0
+      }
+    },
+    {
+      "stage_slug": "performance-validation",
+      "started_at": "2026-10-28T01:46:14Z",
+      "completed_at": "2026-10-28T01:51:13Z",
+      "agent": "aidlc-quality-agent",
+      "memory_path": "aidlc/spaces/default/intents/261025-stargazing-planner/operation/performance-validation/memory.md",
+      "memory_entries": 0,
+      "memory_breakdown": {
+        "interpretations": 0,
+        "deviations": 0,
+        "tradeoffs": 0,
+        "open_questions": 0
+      },
+      "sensor_firings": [
+        {
+          "id": "required-sections",
+          "fire_id": "e97874be",
+          "result": "passed",
+          "ts": "2026-10-28T01:48:47Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "8096b4b3",
+          "result": "passed",
+          "ts": "2026-10-28T01:48:48Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "c8d3c34f",
+          "result": "passed",
+          "ts": "2026-10-28T01:48:48Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "7bec131d",
+          "result": "passed",
+          "ts": "2026-10-28T01:48:48Z"
+        },
+        {
+          "id": "upstream-coverage",
+          "fire_id": "48aca914",
+          "result": "failed",
+          "ts": "2026-10-28T01:48:48Z",
+          "detail_path": "aidlc/spaces/default/intents/261025-stargazing-planner/.aidlc-engine/sensors/performance-validation/upstream-coverage-48aca914.md"
+        }
+      ],
+      "outcome": "approved",
+      "learnings_captured": {
+        "from_orchestrator": 0,
+        "from_user_addition": 0
+      }
+    },
+    {
+      "stage_slug": "feedback-optimization",
+      "started_at": "2026-10-28T01:51:13Z",
+      "completed_at": "2026-10-28T02:09:11Z",
+      "agent": "aidlc-operations-agent",
+      "memory_path": "aidlc/spaces/default/intents/261025-stargazing-planner/operation/feedback-optimization/memory.md",
+      "memory_entries": 0,
+      "memory_breakdown": {
+        "interpretations": 0,
+        "deviations": 0,
+        "tradeoffs": 0,
+        "open_questions": 0
+      },
+      "sensor_firings": [
+        {
+          "id": "required-sections",
+          "fire_id": "4a37c6df",
+          "result": "passed",
+          "ts": "2026-10-28T02:03:05Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "ed0d4b55",
+          "result": "passed",
+          "ts": "2026-10-28T02:03:05Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "c56994e4",
+          "result": "passed",
+          "ts": "2026-10-28T02:03:05Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "ec363e19",
+          "result": "passed",
+          "ts": "2026-10-28T02:03:06Z"
+        },
+        {
+          "id": "required-sections",
+          "fire_id": "5d71634b",
+          "result": "passed",
+          "ts": "2026-10-28T02:03:06Z"
+        },
+        {
+          "id": "upstream-coverage",
+          "fire_id": "58972b5b",
+          "result": "failed",
+          "ts": "2026-10-28T02:03:06Z",
+          "detail_path": "aidlc/spaces/default/intents/261025-stargazing-planner/.aidlc-engine/sensors/feedback-optimization/upstream-coverage-58972b5b.md"
+        }
+      ],
+      "outcome": "approved",
+      "learnings_captured": {
+        "from_orchestrator": 0,
+        "from_user_addition": 0
+      }
     }
   ],
   "bolt_dag": {
